@@ -1,0 +1,212 @@
+T12D0 000:155.476   SEGGER J-Link V7.94j Log File
+T12D0 000:155.640   DLL Compiled: Feb 14 2024 15:31:39
+T12D0 000:155.650   Logging started @ 2024-02-16 01:54
+T12D0 000:155.658   Process: C:\Keil_v5\UV4\UV4.exe
+T12D0 000:155.670 - 155.667ms
+T12D0 000:155.685 JLINK_SetWarnOutHandler(...)
+T12D0 000:155.694 - 0.011ms
+T12D0 000:155.705 JLINK_OpenEx(...)
+T12D0 000:158.536   Firmware: J-Link V11 compiled Dec  4 2023 10:22:45
+T12D0 000:159.373   Firmware: J-Link V11 compiled Dec  4 2023 10:22:45
+T12D0 000:178.823   Hardware: V11.00
+T12D0 000:178.881   S/N: 601012352
+T12D0 000:178.914   OEM: SEGGER
+T12D0 000:178.946   Feature(s): RDI, FlashBP, FlashDL, JFlash, GDB
+T12D0 000:180.606   Bootloader: (Could not read)
+T12D0 000:181.173   USB speed mode: High speed (480 MBit/s)
+T12D0 000:181.214   Active J-Link Eco level: 3 (https://wiki.segger.com/J-Link_Eco)
+T12D0 000:181.554   TELNET listener socket opened on port 19021
+T12D0 000:181.678   WEBSRV WEBSRV_Init(): Starting webserver thread(s)
+T12D0 000:181.793   WEBSRV Webserver running on local port 19080
+T12D0 000:181.887   Looking for J-Link GUI Server exe at: C:\Keil_v5\ARM\Segger\JLinkGUIServer.exe
+T12D0 000:181.974   Looking for J-Link GUI Server exe at: C:\Program Files\SEGGER\JLink\JLinkGUIServer.exe
+T12D0 000:182.003   Forking J-Link GUI Server: C:\Program Files\SEGGER\JLink\JLinkGUIServer.exe
+T12D0 000:185.474   J-Link GUI Server info: "J-Link GUI server V7.94j "
+T12D0 000:185.686 - 29.975ms returns "O.K."
+T12D0 000:185.708 JLINK_GetEmuCaps()
+T12D0 000:185.717 - 0.007ms returns 0xB9FF7BBF
+T12D0 000:185.728 JLINK_TIF_GetAvailable(...)
+T12D0 000:185.998 - 0.270ms
+T12D0 000:186.013 JLINK_SetErrorOutHandler(...)
+T12D0 000:186.020 - 0.006ms
+T12D0 000:186.045 JLINK_ExecCommand("ProjectFile = "C:\Users\JUEMING_SHI\Desktop\pmsm_hall_control\MDK-ARM\JLinkSettings.ini"", ...). 
+T12D0 000:201.958   Ref file found at: C:\Keil_v5\ARM\Segger\JLinkDevices.ref
+T12D0 000:202.033   REF file references invalid XML file: C:\Program Files\SEGGER\JLink\JLinkDevices.xml
+T12D0 000:203.129 - 17.082ms returns 0x00
+T12D0 000:203.150 JLINK_ExecCommand("Device = STM32H743IITx", ...). 
+T12D0 000:204.033   Flash bank @ 0x90000000: SFL: Parsing sectorization info from ELF file
+T12D0 000:204.046     FlashDevice.SectorInfo[0]: .SectorSize = 0x00010000, .SectorStartAddr = 0x00000000
+T12D0 000:215.892   Device "STM32H743II" selected.
+T12D0 000:216.118 - 12.960ms returns 0x00
+T12D0 000:216.148 JLINK_ExecCommand("DisableConnectionTimeout", ...). 
+T12D0 000:216.159 - 0.002ms returns 0x01
+T12D0 000:216.168 JLINK_GetHardwareVersion()
+T12D0 000:216.175 - 0.006ms returns 110000
+T12D0 000:216.232 JLINK_GetDLLVersion()
+T12D0 000:216.248 - 0.015ms returns 79410
+T12D0 000:216.264 JLINK_GetOEMString(...)
+T12D0 000:216.273 JLINK_GetFirmwareString(...)
+T12D0 000:216.280 - 0.006ms
+T12D0 000:216.291 JLINK_GetDLLVersion()
+T12D0 000:216.298 - 0.006ms returns 79410
+T12D0 000:216.306 JLINK_GetCompileDateTime()
+T12D0 000:216.312 - 0.006ms
+T12D0 000:216.326 JLINK_GetFirmwareString(...)
+T12D0 000:216.332 - 0.006ms
+T12D0 000:216.341 JLINK_GetHardwareVersion()
+T12D0 000:216.347 - 0.006ms returns 110000
+T12D0 000:216.356 JLINK_GetSN()
+T12D0 000:216.362 - 0.006ms returns 601012352
+T12D0 000:216.371 JLINK_GetOEMString(...)
+T12D0 000:216.390 JLINK_TIF_Select(JLINKARM_TIF_SWD)
+T12D0 000:217.299 - 0.909ms returns 0x00
+T12D0 000:217.312 JLINK_HasError()
+T12D0 000:217.329 JLINK_SetSpeed(5000)
+T12D0 000:217.469 - 0.141ms
+T12D0 000:217.782 JLINK_HasError()
+T12D0 000:217.795 JLINK_SetResetType(JLINKARM_RESET_TYPE_NORMAL)
+T12D0 000:217.801 - 0.006ms returns JLINKARM_RESET_TYPE_NORMAL
+T12D0 000:217.810 JLINK_Reset()
+T12D0 000:217.989   ConfigTargetSettings() start
+T12D0 000:218.002    J-Link Script File: Executing ConfigTargetSettings()
+T12D0 000:218.024   ConfigTargetSettings() end - Took 22us
+T12D0 000:218.036   InitTarget() start
+T12D0 000:218.045    J-Link Script File: Executing InitTarget()
+T12D0 000:218.395   SWD selected. Executing JTAG -> SWD switching sequence.
+T12D0 000:220.234   DAP initialized successfully.
+T12D0 000:230.904   InitTarget() end - Took 12.8ms
+T12D0 000:231.506   Found SW-DP with ID 0x6BA02477
+T12D0 000:233.354   DPIDR: 0x6BA02477
+T12D0 000:233.371   CoreSight SoC-400 or earlier
+T12D0 000:233.382   Scanning AP map to find all available APs
+T12D0 000:234.478   AP[3]: Stopped AP scan as end of AP map has been reached
+T12D0 000:234.493   AP[0]: AHB-AP (IDR: 0x84770001)
+T12D0 000:234.502   AP[1]: AHB-AP (IDR: 0x84770001)
+T12D0 000:234.512   AP[2]: APB-AP (IDR: 0x54770002)
+T12D0 000:234.522   Iterating through AP map to find AHB-AP to use
+T12D0 000:235.207   AP[0]: Core found
+T12D0 000:235.220   AP[0]: AHB-AP ROM base: 0xE00FE000
+T12D0 000:235.559   
+  ***** Error: 
+T12D0 000:235.571   DAP error while reading AIRCR.
+T12D0 000:259.061   ConfigTargetSettings() start
+T12D0 000:259.113    J-Link Script File: Executing ConfigTargetSettings()
+T12D0 000:259.165   ConfigTargetSettings() end - Took 48us
+T12D0 000:259.202   InitTarget() start
+T12D0 000:259.229    J-Link Script File: Executing InitTarget()
+T12D0 000:259.615   SWD selected. Executing JTAG -> SWD switching sequence.
+T12D0 000:261.337   DAP initialized successfully.
+T12D0 000:271.665   InitTarget() end - Took 12.4ms
+T12D0 000:272.282   Found SW-DP with ID 0x6BA02477
+T12D0 000:274.150   DPIDR: 0x6BA02477
+T12D0 000:274.167   CoreSight SoC-400 or earlier
+T12D0 000:274.181   Scanning AP map to find all available APs
+T12D0 000:275.458   AP[3]: Stopped AP scan as end of AP map has been reached
+T12D0 000:275.482   AP[0]: AHB-AP (IDR: 0x84770001)
+T12D0 000:275.496   AP[1]: AHB-AP (IDR: 0x84770001)
+T12D0 000:275.511   AP[2]: APB-AP (IDR: 0x54770002)
+T12D0 000:275.525   Iterating through AP map to find AHB-AP to use
+T12D0 000:276.284   AP[0]: Core found
+T12D0 000:276.337   AP[0]: AHB-AP ROM base: 0xE00FE000
+T12D0 000:276.795   
+  ***** Error: 
+T12D0 000:276.835   DAP error while reading AIRCR.
+T12D0 000:276.869 - 59.057ms
+T12D0 000:276.915 JLINK_GetId()
+T12D0 000:277.177   ConfigTargetSettings() start
+T12D0 000:277.217    J-Link Script File: Executing ConfigTargetSettings()
+T12D0 000:277.268   ConfigTargetSettings() end - Took 46us
+T12D0 000:277.297   InitTarget() start
+T12D0 000:277.309    J-Link Script File: Executing InitTarget()
+T12D0 000:277.651   SWD selected. Executing JTAG -> SWD switching sequence.
+T12D0 000:279.420   DAP initialized successfully.
+T12D0 000:290.025   InitTarget() end - Took 12.7ms
+T12D0 000:290.677   Found SW-DP with ID 0x6BA02477
+T12D0 000:292.741   DPIDR: 0x6BA02477
+T12D0 000:292.794   CoreSight SoC-400 or earlier
+T12D0 000:292.831   Scanning AP map to find all available APs
+T12D0 000:294.136   AP[3]: Stopped AP scan as end of AP map has been reached
+T12D0 000:294.190   AP[0]: AHB-AP (IDR: 0x84770001)
+T12D0 000:294.225   AP[1]: AHB-AP (IDR: 0x84770001)
+T12D0 000:294.261   AP[2]: APB-AP (IDR: 0x54770002)
+T12D0 000:294.295   Iterating through AP map to find AHB-AP to use
+T12D0 000:295.009   AP[0]: Core found
+T12D0 000:295.051   AP[0]: AHB-AP ROM base: 0xE00FE000
+T12D0 000:295.445   
+  ***** Error: 
+T12D0 000:295.495   DAP error while reading AIRCR.
+T12D0 000:319.064   ConfigTargetSettings() start
+T12D0 000:319.116    J-Link Script File: Executing ConfigTargetSettings()
+T12D0 000:319.168   ConfigTargetSettings() end - Took 47us
+T12D0 000:319.201   InitTarget() start
+T12D0 000:319.214    J-Link Script File: Executing InitTarget()
+T12D0 000:319.560   SWD selected. Executing JTAG -> SWD switching sequence.
+T12D0 000:321.368   DAP initialized successfully.
+T12D0 000:332.248   InitTarget() end - Took 13.0ms
+T12D0 000:332.817   Found SW-DP with ID 0x6BA02477
+T12D0 000:334.590   DPIDR: 0x6BA02477
+T12D0 000:334.612   CoreSight SoC-400 or earlier
+T12D0 000:334.627   Scanning AP map to find all available APs
+T12D0 000:335.755   AP[3]: Stopped AP scan as end of AP map has been reached
+T12D0 000:335.773   AP[0]: AHB-AP (IDR: 0x84770001)
+T12D0 000:335.787   AP[1]: AHB-AP (IDR: 0x84770001)
+T12D0 000:335.801   AP[2]: APB-AP (IDR: 0x54770002)
+T12D0 000:335.814   Iterating through AP map to find AHB-AP to use
+T12D0 000:336.470   AP[0]: Core found
+T12D0 000:336.524   AP[0]: AHB-AP ROM base: 0xE00FE000
+T12D0 000:336.921   
+  ***** Error: 
+T12D0 000:336.961   DAP error while reading AIRCR.
+T12D0 000:336.996 - 60.079ms returns 0x00000000
+T12D0 000:337.041 JLINK_GetId()
+T12D0 000:337.280   ConfigTargetSettings() start
+T12D0 000:337.290    J-Link Script File: Executing ConfigTargetSettings()
+T12D0 000:337.304   ConfigTargetSettings() end - Took 12us
+T12D0 000:337.314   InitTarget() start
+T12D0 000:337.323    J-Link Script File: Executing InitTarget()
+T12D0 000:337.687   SWD selected. Executing JTAG -> SWD switching sequence.
+T12D0 000:339.621   DAP initialized successfully.
+T12D0 000:349.670   InitTarget() end - Took 12.3ms
+T12D0 000:350.285   Found SW-DP with ID 0x6BA02477
+T12D0 000:352.343   DPIDR: 0x6BA02477
+T12D0 000:352.360   CoreSight SoC-400 or earlier
+T12D0 000:352.375   Scanning AP map to find all available APs
+T12D0 000:353.672   AP[3]: Stopped AP scan as end of AP map has been reached
+T12D0 000:353.696   AP[0]: AHB-AP (IDR: 0x84770001)
+T12D0 000:353.710   AP[1]: AHB-AP (IDR: 0x84770001)
+T12D0 000:353.724   AP[2]: APB-AP (IDR: 0x54770002)
+T12D0 000:353.737   Iterating through AP map to find AHB-AP to use
+T12D0 000:354.467   AP[0]: Core found
+T12D0 000:354.509   AP[0]: AHB-AP ROM base: 0xE00FE000
+T12D0 000:354.853   
+  ***** Error: 
+T12D0 000:354.869   DAP error while reading AIRCR.
+T12D0 000:377.929   ConfigTargetSettings() start
+T12D0 000:377.951    J-Link Script File: Executing ConfigTargetSettings()
+T12D0 000:377.972   ConfigTargetSettings() end - Took 19us
+T12D0 000:377.986   InitTarget() start
+T12D0 000:378.000    J-Link Script File: Executing InitTarget()
+T12D0 000:378.273   SWD selected. Executing JTAG -> SWD switching sequence.
+T12D0 000:380.296   DAP initialized successfully.
+T12D0 000:390.778   InitTarget() end - Took 12.7ms
+T12D0 000:391.404   Found SW-DP with ID 0x6BA02477
+T12D0 000:393.303   DPIDR: 0x6BA02477
+T12D0 000:393.345   CoreSight SoC-400 or earlier
+T12D0 000:393.382   Scanning AP map to find all available APs
+T12D0 000:394.679   AP[3]: Stopped AP scan as end of AP map has been reached
+T12D0 000:394.702   AP[0]: AHB-AP (IDR: 0x84770001)
+T12D0 000:394.717   AP[1]: AHB-AP (IDR: 0x84770001)
+T12D0 000:394.731   AP[2]: APB-AP (IDR: 0x54770002)
+T12D0 000:394.745   Iterating through AP map to find AHB-AP to use
+T12D0 000:395.412   AP[0]: Core found
+T12D0 000:395.431   AP[0]: AHB-AP ROM base: 0xE00FE000
+T12D0 000:395.795   
+  ***** Error: 
+T12D0 000:395.809   DAP error while reading AIRCR.
+T12D0 000:395.820 - 58.778ms returns 0x00000000
+T12D0 000:401.065 JLINK_GetFirmwareString(...)
+T12D0 000:401.083 - 0.018ms
+T12D0 004:499.508 JLINK_Close()
+T12D0 004:514.905 - 15.396ms
+T12D0 004:514.920   
+T12D0 004:514.926   Closed
