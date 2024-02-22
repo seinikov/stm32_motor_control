@@ -35,10 +35,16 @@
                 "name": "Core",
                 "files": [
                   {
+                    "path": "../Core/Inc/debug.h"
+                  },
+                  {
                     "path": "../Core/Src/algorithm_filtering.c"
                   },
                   {
                     "path": "../Core/Src/algorithm_pid.c"
+                  },
+                  {
+                    "path": "../Core/Src/bsp_hall.c"
                   },
                   {
                     "path": "../Core/Src/bsp_motor.c"

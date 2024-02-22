@@ -2,8 +2,6 @@
 #define __BSP_MOTOR_H__
 
 #include "main.h"
-#include "stm32h7xx_hal_tim.h"
-#include "tim.h"
 
 typedef enum 
 {
