@@ -25,6 +25,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "bsp_motor.h"
+#include "bsp_hall.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,7 +46,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+MotorSta_Typedef global_motorsta;
+MotorDir_Typedef global_motordir;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -98,7 +100,7 @@ int main(void)
   MX_TIM3_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
-  MOTOR_TIMxHallStart(&htim3);
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */

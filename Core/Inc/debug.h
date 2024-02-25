@@ -3,6 +3,6 @@
 
 #include "bsp_motor.h"
 
-#define MOTOR_DIR MOTOR_DIR_CW
+#define MOTOR_INIT_DIR MOTOR_DIR_CW
 
 #endif
