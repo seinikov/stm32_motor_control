@@ -24,6 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "stdio.h"
 #include "bsp_motor.h"
 #include "bsp_hall.h"
 /* USER CODE END Includes */
@@ -48,6 +49,7 @@
 /* USER CODE BEGIN PV */
 MotorSta_Typedef global_motorsta;
 MotorDir_Typedef global_motordir;
+float global_pwm_duty=0.05f;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -100,13 +102,22 @@ int main(void)
   MX_TIM3_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
-  
+  __HAL_DBGMCU_FREEZE_TIM1();
+  __HAL_DBGMCU_FREEZE_TIM3();
+  HALLSENSOR_TIMxStart(&htim3);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  Motor_Start(&htim1,&htim3);
+  float speed_hz;
   while (1)
   {
+    if(0==HAL_GetTick()%50){
+      speed_hz=HALLSENSOR_SpeedFrequency_Hz();
+      printf("%fHz,%frps,%frpm\r\n",speed_hz,speed_hz/PPR,speed_hz/PPR*60);
+      HAL_Delay(1);
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

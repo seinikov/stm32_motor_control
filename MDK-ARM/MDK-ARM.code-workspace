@@ -4,6 +4,15 @@
             "path": "."
         }
     ],
-    "settings": {},
+    "settings": {
+        "files.associations": {
+            "debug.h": "c",
+            "bsp_hall.h": "c",
+            "bsp_motor.h": "c",
+            "tim.h": "c",
+            "stm32h7xx_hal_tim.h": "c",
+            "main.h": "c"
+        }
+    },
     "extensions": {}
 }

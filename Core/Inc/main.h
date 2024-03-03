@@ -71,6 +71,24 @@ void Error_Handler(void);
 #define KEY4_GPIO_Port GPIOI
 #define LED3_Pin GPIO_PIN_12
 #define LED3_GPIO_Port GPIOB
+#define U_LOW_Pin GPIO_PIN_13
+#define U_LOW_GPIO_Port GPIOB
+#define V_LOW_Pin GPIO_PIN_14
+#define V_LOW_GPIO_Port GPIOB
+#define W_LOW_Pin GPIO_PIN_15
+#define W_LOW_GPIO_Port GPIOB
+#define HALL_U_Pin GPIO_PIN_6
+#define HALL_U_GPIO_Port GPIOC
+#define HALL_V_Pin GPIO_PIN_7
+#define HALL_V_GPIO_Port GPIOC
+#define HALL_W_Pin GPIO_PIN_8
+#define HALL_W_GPIO_Port GPIOC
+#define U_HIGH_Pin GPIO_PIN_8
+#define U_HIGH_GPIO_Port GPIOA
+#define V_HIGH_Pin GPIO_PIN_9
+#define V_HIGH_GPIO_Port GPIOA
+#define W_HIGH_Pin GPIO_PIN_10
+#define W_HIGH_GPIO_Port GPIOA
 #define MOTOR_ENABLE_Pin GPIO_PIN_8
 #define MOTOR_ENABLE_GPIO_Port GPIOB
 

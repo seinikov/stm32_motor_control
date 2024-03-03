@@ -1,6 +1,7 @@
 #include "main.h"
 #include "bsp_motor.h"
 #include "bsp_hall.h"
+#include "bsp_motor.h"
 #include "tim.h"
 #include "debug.h"
 
@@ -20,19 +21,18 @@ void HALLSENSOR_TIMxStart(TIM_HandleTypeDef *use_tim_handle){
 
 uint8_t HALLSENSOR_GetPhase(void){
     uint8_t phase=0;
-    phase |= HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_6);
+    phase |= HAL_GPIO_ReadPin(HALL_U_GPIO_Port,HALL_U_Pin);
     phase <<= 1;
-    phase |= HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_7);
+    phase |= HAL_GPIO_ReadPin(HALL_V_GPIO_Port,HALL_V_Pin);
     phase <<= 1;
-    phase |= HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_8);
+    phase |= HAL_GPIO_ReadPin(HALL_W_GPIO_Port,HALL_W_Pin);
     return (phase&0x07);
 }
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
     hall_current_phase=HALLSENSOR_GetPhase();
     if(global_motorsta==MOTOR_STA_ENABLE){
-        /********************/
-        /*change phase logic*/
+        Motor_Control(&htim1,hall_current_phase);
     }
     hall_compare=__HAL_TIM_GET_COMPARE(htim,TIM_CHANNEL_1);
     hall_count++;
@@ -45,7 +45,7 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
     hall_last_pahse=hall_current_phase;
 }
 
-float HALLSENSOR_SpeedFrequency_Hz(){
+float HALLSENSOR_SpeedFrequency_Hz(void){
     float compare_pre_time=0;
     if((0==hall_count)||(0==hall_compare)){
         return 0;
