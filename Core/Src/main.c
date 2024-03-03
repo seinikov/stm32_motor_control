@@ -27,6 +27,7 @@
 #include "stdio.h"
 #include "bsp_motor.h"
 #include "bsp_hall.h"
+#include "protocol_niming_upper.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,7 +50,7 @@
 /* USER CODE BEGIN PV */
 MotorSta_Typedef global_motorsta;
 MotorDir_Typedef global_motordir;
-float global_pwm_duty=0.05f;
+float global_pwm_duty=0.99f;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -115,7 +116,7 @@ int main(void)
   {
     if(0==HAL_GetTick()%50){
       speed_hz=HALLSENSOR_SpeedFrequency_Hz();
-      printf("%fHz,%frps,%frpm\r\n",speed_hz,speed_hz/PPR,speed_hz/PPR*60);
+      Protocol_NIMING_Mortor(&huart3,0xF1,speed_hz,speed_hz/PPR,speed_hz/PPR*60);
       HAL_Delay(1);
     }
     /* USER CODE END WHILE */

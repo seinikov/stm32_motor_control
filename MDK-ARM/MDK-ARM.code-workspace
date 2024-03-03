@@ -11,7 +11,8 @@
             "bsp_motor.h": "c",
             "tim.h": "c",
             "stm32h7xx_hal_tim.h": "c",
-            "main.h": "c"
+            "main.h": "c",
+            "protocol_niming_upper.h": "c"
         }
     },
     "extensions": {}

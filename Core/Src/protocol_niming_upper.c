@@ -1,33 +1,29 @@
 #include "main.h"
 #include "protocol_niming_upper.h"
 
-void Protocol_NIMING_TemperatureDataPostback(UART_HandleTypeDef *use_huart,uint8_t ID,
-                                            float heater_tempature,float pres_temperature,
-                                            float pres_pressure,float ias,float aoa,float aos){
-    uint8_t tx_buf[16]={0};
+void Protocol_NIMING_Mortor(UART_HandleTypeDef *use_huart,uint8_t ID,
+                                            float speed_hz,float rps,float rpm){
+    uint8_t tx_buf[64]={0};
     uint8_t counter = 0;
     tx_buf [counter++]  = 0xAA; //HEAD
     tx_buf [counter++]  = 0xFF; //D_ADDR
     tx_buf [counter++]  = ID;   //ID
     tx_buf [counter++]  = 0x00; //Longth after this byte, will be reset later
-    int16_t f2i16_tmp=heater_tempature*10;
-    tx_buf [counter++]  = (f2i16_tmp)&0xFF;
-    tx_buf [counter++]  = ((f2i16_tmp)>>8)&0xFF;
-    f2i16_tmp=pres_temperature*10;
-    tx_buf [counter++]  = (f2i16_tmp)&0xFF;
-    tx_buf [counter++]  = ((f2i16_tmp)>>8)&0xFF;
-    f2i16_tmp=pres_pressure*10;
-    tx_buf [counter++]  = (f2i16_tmp)&0xFF;
-    tx_buf [counter++]  = ((f2i16_tmp)>>8)&0xFF;
-    f2i16_tmp=ias*10;
-    tx_buf [counter++]  = (f2i16_tmp)&0xFF;
-    tx_buf [counter++]  = ((f2i16_tmp)>>8)&0xFF;
-    f2i16_tmp=aoa*10;
-    tx_buf [counter++]  = (f2i16_tmp)&0xFF;
-    tx_buf [counter++]  = ((f2i16_tmp)>>8)&0xFF;
-    f2i16_tmp=aos*10;
-    tx_buf [counter++]  = (f2i16_tmp)&0xFF;
-    tx_buf [counter++]  = ((f2i16_tmp)>>8)&0xFF;
+    int32_t f2i32_tmp=speed_hz*100;
+    tx_buf [counter++]  = (f2i32_tmp)&0xFF;
+    tx_buf [counter++]  = ((f2i32_tmp)>>8)&0xFF;
+    tx_buf [counter++]  = ((f2i32_tmp)>>16)&0xFF;
+    tx_buf [counter++]  = ((f2i32_tmp)>>24)&0xFF;
+    f2i32_tmp=rps*100;
+    tx_buf [counter++]  = (f2i32_tmp)&0xFF;
+    tx_buf [counter++]  = ((f2i32_tmp)>>8)&0xFF;
+    tx_buf [counter++]  = ((f2i32_tmp)>>16)&0xFF;
+    tx_buf [counter++]  = ((f2i32_tmp)>>24)&0xFF;
+    f2i32_tmp=rpm*10;
+    tx_buf [counter++]  = (f2i32_tmp)&0xFF;
+    tx_buf [counter++]  = ((f2i32_tmp)>>8)&0xFF;
+    tx_buf [counter++]  = ((f2i32_tmp)>>16)&0xFF;
+    tx_buf [counter++]  = ((f2i32_tmp)>>24)&0xFF;
 
     tx_buf [3] = counter - 4;   //Longth, re-load longth
     uint8_t sum = 0;
