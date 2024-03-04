@@ -6,13 +6,8 @@
     ],
     "settings": {
         "files.associations": {
-            "debug.h": "c",
-            "bsp_hall.h": "c",
-            "bsp_motor.h": "c",
-            "tim.h": "c",
-            "stm32h7xx_hal_tim.h": "c",
-            "main.h": "c",
-            "protocol_niming_upper.h": "c"
+            "algorithm_filtering.h": "c",
+            "data_ring_buffer.h": "c"
         }
     },
     "extensions": {}

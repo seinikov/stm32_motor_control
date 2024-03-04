@@ -28,6 +28,7 @@
 #include "bsp_motor.h"
 #include "bsp_hall.h"
 #include "protocol_niming_upper.h"
+#include "algorithm_filtering.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,7 +51,8 @@
 /* USER CODE BEGIN PV */
 MotorSta_Typedef global_motorsta;
 MotorDir_Typedef global_motordir;
-float global_pwm_duty=0.99f;
+FOLPF_DATATypeDef global_speed_hz;
+uint32_t global_pwm_duty=2500;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -106,17 +108,18 @@ int main(void)
   __HAL_DBGMCU_FREEZE_TIM1();
   __HAL_DBGMCU_FREEZE_TIM3();
   HALLSENSOR_TIMxStart(&htim3);
+  FLOAT_FirstOrderLowPassFiltering_DataInit(&global_speed_hz);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   Motor_Start(&htim1,&htim3);
-  float speed_hz;
   while (1)
   {
     if(0==HAL_GetTick()%50){
-      speed_hz=HALLSENSOR_SpeedFrequency_Hz();
-      Protocol_NIMING_Mortor(&huart3,0xF1,speed_hz,speed_hz/PPR,speed_hz/PPR*60);
+      global_speed_hz.value_current=HALLSENSOR_SpeedFrequency_Hz();
+      FLOAT_FirstOrderLowPassFiltering_Process(&global_speed_hz);
+      Protocol_NIMING_Mortor(&huart3,0xF1,global_speed_hz.value_current,global_speed_hz.value_current/PPR,global_speed_hz.value_current/PPR*60);
       HAL_Delay(1);
     }
     /* USER CODE END WHILE */

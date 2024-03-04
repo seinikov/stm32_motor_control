@@ -7,7 +7,7 @@
 
 extern MotorSta_Typedef global_motorsta;
 extern MotorDir_Typedef global_motordir;
-extern float global_pwm_duty;
+extern uint32_t global_pwm_duty;
 
 void MOTOR_TIMxDriveOutConfigInit(TIM_HandleTypeDef *motor_tim_handle,TIM_OC_InitTypeDef *oc_handle,
                         uint32_t use_channel_1,uint32_t use_channel_2,uint32_t use_channel_3){
@@ -33,7 +33,7 @@ void Motor_Control(TIM_HandleTypeDef *motor_tim_handle,uint8_t hall_phase){
         HAL_TIM_PWM_Stop(motor_tim_handle,TIM_CHANNEL_3);
         HAL_TIMEx_PWMN_Stop(motor_tim_handle,TIM_CHANNEL_3);
 
-        __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_2,global_pwm_duty*MOTOR_TIM_PERIOD);
+        __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_2,global_pwm_duty);
         HAL_TIM_PWM_Start(motor_tim_handle,TIM_CHANNEL_2);
         HAL_TIMEx_PWMN_Stop(motor_tim_handle,TIM_CHANNEL_2);
 
@@ -47,65 +47,70 @@ void Motor_Control(TIM_HandleTypeDef *motor_tim_handle,uint8_t hall_phase){
         HAL_TIM_PWM_Stop(motor_tim_handle,TIM_CHANNEL_2);
         HAL_TIMEx_PWMN_Stop(motor_tim_handle,TIM_CHANNEL_2);
 
-        __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_3,global_pwm_duty*MOTOR_TIM_PERIOD);
+        __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_3,global_pwm_duty);
         HAL_TIM_PWM_Start(motor_tim_handle,TIM_CHANNEL_3);
         HAL_TIMEx_PWMN_Stop(motor_tim_handle,TIM_CHANNEL_3);
 
         __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_1,MOTOR_TIM_PERIOD+1);
         HAL_TIM_PWM_Stop(motor_tim_handle,TIM_CHANNEL_1);
         HAL_TIMEx_PWMN_Start(motor_tim_handle,TIM_CHANNEL_1);
+
         break;
     }
     case HALL_PHASE_C2B:{
         HAL_TIM_PWM_Stop(motor_tim_handle,TIM_CHANNEL_1);
         HAL_TIMEx_PWMN_Stop(motor_tim_handle,TIM_CHANNEL_1);
 
-        __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_3,global_pwm_duty*MOTOR_TIM_PERIOD);
+        __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_3,global_pwm_duty);
         HAL_TIM_PWM_Start(motor_tim_handle,TIM_CHANNEL_3);
         HAL_TIMEx_PWMN_Stop(motor_tim_handle,TIM_CHANNEL_3);
 
         __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_2,MOTOR_TIM_PERIOD+1);
         HAL_TIM_PWM_Stop(motor_tim_handle,TIM_CHANNEL_2);
         HAL_TIMEx_PWMN_Start(motor_tim_handle,TIM_CHANNEL_2);
+
         break;
     }
     case HALL_PHASE_A2B:{
         HAL_TIM_PWM_Stop(motor_tim_handle,TIM_CHANNEL_3);
         HAL_TIMEx_PWMN_Stop(motor_tim_handle,TIM_CHANNEL_3);
 
-        __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_1,global_pwm_duty*MOTOR_TIM_PERIOD);
+        __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_1,global_pwm_duty);
         HAL_TIM_PWM_Start(motor_tim_handle,TIM_CHANNEL_1);
         HAL_TIMEx_PWMN_Stop(motor_tim_handle,TIM_CHANNEL_1);
 
         __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_2,MOTOR_TIM_PERIOD+1);
         HAL_TIM_PWM_Stop(motor_tim_handle,TIM_CHANNEL_2);
         HAL_TIMEx_PWMN_Start(motor_tim_handle,TIM_CHANNEL_2);
+
         break;
     }
     case HALL_PHASE_A2C:{
         HAL_TIM_PWM_Stop(motor_tim_handle,TIM_CHANNEL_2);
         HAL_TIMEx_PWMN_Stop(motor_tim_handle,TIM_CHANNEL_2);
 
-        __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_1,global_pwm_duty*MOTOR_TIM_PERIOD);
+        __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_1,global_pwm_duty);
         HAL_TIM_PWM_Start(motor_tim_handle,TIM_CHANNEL_1);
         HAL_TIMEx_PWMN_Stop(motor_tim_handle,TIM_CHANNEL_1);
 
         __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_3,MOTOR_TIM_PERIOD+1);
         HAL_TIM_PWM_Stop(motor_tim_handle,TIM_CHANNEL_3);
         HAL_TIMEx_PWMN_Start(motor_tim_handle,TIM_CHANNEL_3);
+
         break;
     }
     case HALL_PHASE_B2C:{
         HAL_TIM_PWM_Stop(motor_tim_handle,TIM_CHANNEL_1);
         HAL_TIMEx_PWMN_Stop(motor_tim_handle,TIM_CHANNEL_1);
 
-        __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_2,global_pwm_duty*MOTOR_TIM_PERIOD);
+        __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_2,global_pwm_duty);
         HAL_TIM_PWM_Start(motor_tim_handle,TIM_CHANNEL_2);
         HAL_TIMEx_PWMN_Stop(motor_tim_handle,TIM_CHANNEL_2);
 
         __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_3,MOTOR_TIM_PERIOD+1);
         HAL_TIM_PWM_Stop(motor_tim_handle,TIM_CHANNEL_3);
         HAL_TIMEx_PWMN_Start(motor_tim_handle,TIM_CHANNEL_3);
+
         break;
     }
     default:
@@ -162,3 +167,48 @@ void Motor_Start(TIM_HandleTypeDef *motor_tim_handle,TIM_HandleTypeDef *hall_sen
     global_motorsta=MOTOR_STA_ENABLE;
 
 }
+
+// void Motor_SpeedSet(TIM_HandleTypeDef *motor_tim_handle,uint32_t speed){
+//     uint32_t hall_current_phase=0;
+//     if(speed>MOTOR_TIM_PERIOD){
+//         speed=MOTOR_TIM_PERIOD;
+//     }
+//     else if(speed<0){
+//         speed=0;
+//     }
+//     global_pwm_duty=0;
+//     hall_current_phase=HALLSENSOR_GetPhase();
+//     if(MOTOR_DIR_CW==global_motordir){
+//         hall_current_phase=0x07^hall_current_phase;
+//     }
+//     switch (hall_current_phase)
+//     {
+//     case HALL_PHASE_B2A:{
+//         __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_2,speed);
+//         break;
+//     }
+//     case HALL_PHASE_C2A:{
+//         __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_3,speed);
+//         break;
+//     }
+//     case HALL_PHASE_C2B:{
+//         __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_3,speed);
+//         break;
+//     }
+//     case HALL_PHASE_A2B:{
+//         __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_1,speed);
+//         break;
+//     }
+//     case HALL_PHASE_A2C:{
+//         __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_1,speed);
+//         break;
+//     }
+//     case HALL_PHASE_B2C:{
+//         __HAL_TIM_SET_COMPARE(motor_tim_handle,TIM_CHANNEL_2,speed);
+//         break;
+//     }
+//     default:
+//         break;
+//     }
+
+// }
