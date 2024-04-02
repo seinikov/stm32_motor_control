@@ -1,4 +1,5 @@
 #include "algorithm_filtering.h"
+#include "arm_math.h"
 
 void UINT16_DOUBLE_AverageFiltering(UINT16_DOUBLE_DATA_RING_BUFFER *use_ringbuf,uint16_t *res1,uint16_t *res2){
     uint32_t sum1=0,sum2=0;
@@ -18,12 +19,13 @@ void UINT16_SINGLE_AverageFiltering(UINT16_SINGLE_DATA_RING_BUFFER *use_ringbuf,
     *res=sum/NUM_RINGBUF_ELE;
 }
 
-void FLOAT_FirstOrderLowPassFiltering_DataInit(FOLPF_DATATypeDef *data_pointer){
-    data_pointer->value_current=0.f;
-    data_pointer->value_last=0.f;
+void FLOAT_FirstOrderLowPassFiltering_DataInit(FOLPF_HandleTypeDef *folpf_obj,float32_t alpha_value){
+    folpf_obj->current_val=0.f;
+    folpf_obj->last_val=0.f;
+    folpf_obj->alpha=alpha_value;
 }
 
-void FLOAT_FirstOrderLowPassFiltering_Process(FOLPF_DATATypeDef *data_pointer){
-    data_pointer->value_current=((1-LOW_PASS_FILTERING_COEFFCIENT)*data_pointer->value_last)+(LOW_PASS_FILTERING_COEFFCIENT *data_pointer->value_current);
-    data_pointer->value_last=data_pointer->value_current;
+void FLOAT_FirstOrderLowPassFiltering_Process(FOLPF_HandleTypeDef *folpf_obj){
+    folpf_obj->current_val=((1-folpf_obj->alpha)*folpf_obj->last_val)+(folpf_obj->alpha *folpf_obj->current_val);
+    folpf_obj->last_val=folpf_obj->current_val;
 }

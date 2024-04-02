@@ -21,8 +21,8 @@ typedef enum {
 void MOTOR_TIMxDriveOutConfigInit(TIM_HandleTypeDef *use_tim_handle,TIM_OC_InitTypeDef *oc_handle,
                         uint32_t use_channel_1,uint32_t use_channel_2,uint32_t use_channel_3);
 
-void Motor_Control(TIM_HandleTypeDef *motor_tim_handle,uint8_t hall_phase);
+void MOTOR_Control(TIM_HandleTypeDef *motor_tim_handle,uint8_t hall_phase);
 
-void Motor_Start(TIM_HandleTypeDef *motor_tim_handle,TIM_HandleTypeDef *hall_sensor_tim_handle);
+void MOTOR_Start(TIM_HandleTypeDef *motor_tim_handle,TIM_HandleTypeDef *hall_sensor_tim_handle);
 
 #endif

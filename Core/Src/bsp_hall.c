@@ -32,7 +32,7 @@ uint8_t HALLSENSOR_GetPhase(void){
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
     hall_current_phase=HALLSENSOR_GetPhase();
     if(global_motorsta==MOTOR_STA_ENABLE){
-        Motor_Control(&htim1,hall_current_phase);
+        MOTOR_Control(&htim1,hall_current_phase);
     }
     hall_compare=__HAL_TIM_GET_COMPARE(htim,TIM_CHANNEL_1);
     hall_count++;

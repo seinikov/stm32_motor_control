@@ -28,7 +28,9 @@
 #include "bsp_motor.h"
 #include "bsp_hall.h"
 #include "protocol_niming_upper.h"
+#include "algorithm_pid.h"
 #include "algorithm_filtering.h"
+#include "debug.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -51,8 +53,9 @@
 /* USER CODE BEGIN PV */
 MotorSta_Typedef global_motorsta;
 MotorDir_Typedef global_motordir;
-FOLPF_DATATypeDef global_speed_hz;
-uint32_t global_pwm_duty=2500;
+FOLPF_HandleTypeDef global_speed_hz;
+PID_INC_HandleTypedef global_motor_speed;
+uint32_t global_pwm_duty=2000;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -103,23 +106,29 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM1_Init();
   MX_TIM3_Init();
-  MX_USART3_UART_Init();
+  MX_UART4_Init();
   /* USER CODE BEGIN 2 */
   __HAL_DBGMCU_FREEZE_TIM1();
   __HAL_DBGMCU_FREEZE_TIM3();
   HALLSENSOR_TIMxStart(&htim3);
-  FLOAT_FirstOrderLowPassFiltering_DataInit(&global_speed_hz);
+  FLOAT_FirstOrderLowPassFiltering_DataInit(&global_speed_hz,SPEED_HZ_FILTERING_ALPHA);
+  PID_INC_Init(&global_motor_speed,40000,0.75,0.45,0.);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  Motor_Start(&htim1,&htim3);
+  MOTOR_Start(&htim1,&htim3);
   while (1)
   {
+    // if(0==HAL_GetTick()%5){
+    //   global_speed_hz.current_val=HALLSENSOR_SpeedFrequency_Hz();
+    //   FLOAT_FirstOrderLowPassFiltering_Process(&global_speed_hz);
+    //   global_pwm_duty= round(PID_INC_Process(&global_motor_speed,global_speed_hz.current_val));
+    // }
     if(0==HAL_GetTick()%50){
-      global_speed_hz.value_current=HALLSENSOR_SpeedFrequency_Hz();
+      global_speed_hz.current_val=HALLSENSOR_SpeedFrequency_Hz();
       FLOAT_FirstOrderLowPassFiltering_Process(&global_speed_hz);
-      Protocol_NIMING_Mortor(&huart3,0xF1,global_speed_hz.value_current,global_speed_hz.value_current/PPR,global_speed_hz.value_current/PPR*60);
+      Protocol_NIMING_Mortor(&huart4,0xF1,global_speed_hz.current_val,global_speed_hz.current_val/PPR,global_speed_hz.current_val/PPR*60);
       HAL_Delay(1);
     }
     /* USER CODE END WHILE */

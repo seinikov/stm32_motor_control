@@ -6,8 +6,8 @@
     ],
     "settings": {
         "files.associations": {
-            "algorithm_filtering.h": "c",
-            "data_ring_buffer.h": "c"
+            "arm_math.h": "c",
+            "algorithm_filtering.h": "c"
         }
     },
     "extensions": {}
