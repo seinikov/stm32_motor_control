@@ -5,6 +5,6 @@
 
 #define MOTOR_INIT_DIR MOTOR_DIR_CW
 
-#define SPEED_HZ_FILTERING_ALPHA 0.4f
+#define SPEED_HZ_FILTERING_ALPHA 0.1f
 
 #endif

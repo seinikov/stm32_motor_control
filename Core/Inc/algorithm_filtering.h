@@ -5,8 +5,6 @@
 #include "arm_math.h"
 #include "data_ring_buffer.h"
 
-#define LOW_PASS_FILTERING_ALPHA 0.05f //1~0
-
 typedef struct {
     float current_val;
     float last_val;

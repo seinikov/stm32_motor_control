@@ -4,6 +4,15 @@
 #include "arm_math.h"
 
 typedef struct {
+    float target_val;     //目标值
+    float err;            //定义当前偏差值
+    float err_last;       //定义上一个偏差值
+    float Kp, Ki, Kd;     //定义比例、积分、微分系数
+    float integral;       //积分值
+    float control_val;    //控制值
+} PID_LOC_HandleTypedef;
+
+typedef struct {
     float32_t target_val;     
 	float32_t err;
 	float32_t err_last;
@@ -12,7 +21,11 @@ typedef struct {
 	float32_t control_val;
 } PID_INC_HandleTypedef;
 
-void PID_INC_Init(PID_INC_HandleTypedef *pid_obj,float32_t init_target,float32_t kp,float32_t ki,float32_t kd);
+void PID_LOC_Init(PID_LOC_HandleTypedef *pid_obj,float32_t init_target,float32_t init_kp,float32_t init_ki,float32_t init_kd);
+
+float PID_LOC_Process(PID_LOC_HandleTypedef *pid_obj,float current_val);
+
+void PID_INC_Init(PID_INC_HandleTypedef *pid_obj,float32_t init_target,float32_t init_kp,float32_t init_ki,float32_t init_kd);
 
 float PID_INC_Process(PID_INC_HandleTypedef *pid_obj,float32_t current_val);
 

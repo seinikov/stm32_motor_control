@@ -53,6 +53,9 @@
                     "path": "../Core/Src/data_ring_buffer.c"
                   },
                   {
+                    "path": "../Core/Src/dma.c"
+                  },
+                  {
                     "path": "../Core/Src/gpio.c"
                   },
                   {
@@ -60,6 +63,9 @@
                   },
                   {
                     "path": "../Core/Src/protocol_niming_upper.c"
+                  },
+                  {
+                    "path": "../Core/Src/protocol_uart_sei.c"
                   },
                   {
                     "path": "../Core/Src/stm32h7xx_hal_msp.c"
