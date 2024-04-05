@@ -6,9 +6,8 @@
     ],
     "settings": {
         "files.associations": {
-            "main.h": "c",
-            "protocol_uart_sei.h": "c",
-            "algorithm_pid.h": "c"
+            "algorithm_pid.h": "c",
+            "protocol_uart_sei.h": "c"
         },
         "cortex-debug.variableUseNaturalFormat": false
     },
