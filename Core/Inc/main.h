@@ -93,8 +93,8 @@ void Error_Handler(void);
 #define MOTOR_ENABLE_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-#define PID_INTERVAL  10//ms
-#define UI_INTERVAL   50//ms
+#define PID_INTERVAL  30//ms
+#define UI_INTERVAL   1000//ms
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

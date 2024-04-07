@@ -4,12 +4,6 @@
             "path": "."
         }
     ],
-    "settings": {
-        "files.associations": {
-            "algorithm_pid.h": "c",
-            "protocol_uart_sei.h": "c"
-        },
-        "cortex-debug.variableUseNaturalFormat": false
-    },
+    "settings": {},
     "extensions": {}
 }
