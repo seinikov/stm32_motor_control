@@ -106,7 +106,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  HAL_Delay(200);//wait for powersupply stability
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -119,8 +119,9 @@ int main(void)
   __HAL_DBGMCU_FREEZE_TIM1();
   __HAL_DBGMCU_FREEZE_TIM3();
   HALLSENSOR_TIMxStart(&htim3);
+  global_motorsta=MOTOR_STA_DISABLE;
   FLOAT_FirstOrderLowPassFiltering_DataInit(&global_speed_hz,SPEED_HZ_FILTERING_ALPHA);
-  PID_LOC_Init(&motor_speed_pid,500.f,0.75f,0.45f,0.f);
+  PID_LOC_Init(&motor_speed_pid,round(500./60.*PPR),0.75f,0.45f,0.f);
   
   __HAL_UART_ENABLE_IT(&huart4,UART_IT_IDLE);
   HAL_UART_Receive_DMA(&huart4,(uint8_t *)uart_rx_buffer,UART_BUFFER_LEN);
@@ -135,12 +136,18 @@ int main(void)
     if(state&0x01){
       global_speed_hz.current_val=HALLSENSOR_SpeedFrequency_Hz();
       FLOAT_FirstOrderLowPassFiltering_Process(&global_speed_hz);
-      motor_control_val=PID_LOC_Process(&motor_speed_pid,round(global_speed_hz.current_val/PPR*60));
+      if(0==global_speed_hz.current_val){
+        uint8_t hall_phase=0;
+        hall_phase=HALLSENSOR_GetPhase();
+        MOTOR_Control(&htim1,hall_phase);
+        HAL_TIM_GenerateEvent(&htim1,TIM_EVENTSOURCE_COM);
+      }
+      motor_control_val=PID_LOC_Process(&motor_speed_pid,global_speed_hz.current_val);
       MOTOR_SpeedControl(&htim1,round(motor_control_val));
       state&=~0x01;
     }
     if(state&0x02){
-      Protocol_NIMING_Mortor(&huart4,0xF1,global_speed_hz.current_val,global_speed_hz.current_val/PPR,global_speed_hz.current_val/PPR*60);
+      Protocol_NIMING_Mortor(&huart4,0xF1,global_speed_hz.current_val,global_speed_hz.current_val/PPR,(global_speed_hz.current_val/PPR)*60);
       state&=~0x02;
     }
     /* USER CODE END WHILE */

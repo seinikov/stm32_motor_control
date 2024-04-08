@@ -35,49 +35,49 @@
                 "name": "Core",
                 "files": [
                   {
+                    "path": "../Core/Inc/debug.h"
+                  },
+                  {
                     "path": "../Core/Src/algorithm_filtering.c"
                   },
                   {
                     "path": "../Core/Src/algorithm_pid.c"
                   },
                   {
-                    "path": "../Core/Src/bsp_motor.c"
+                    "path": "../Core/Src/bsp_hall.c"
                   },
                   {
-                    "path": "../Core/Src/protocol_niming_upper.c"
+                    "path": "../Core/Src/bsp_motor.c"
                   },
                   {
                     "path": "../Core/Src/data_ring_buffer.c"
                   },
                   {
-                    "path": "../Core/Src/bsp_hall.c"
-                  },
-                  {
-                    "path": "../Core/Inc/debug.h"
-                  },
-                  {
-                    "path": "../Core/Src/protocol_uart_sei.c"
-                  },
-                  {
-                    "path": "../Core/Src/main.c"
+                    "path": "../Core/Src/dma.c"
                   },
                   {
                     "path": "../Core/Src/gpio.c"
                   },
                   {
-                    "path": "../Core/Src/dma.c"
+                    "path": "../Core/Src/main.c"
+                  },
+                  {
+                    "path": "../Core/Src/protocol_niming_upper.c"
+                  },
+                  {
+                    "path": "../Core/Src/protocol_uart_sei.c"
+                  },
+                  {
+                    "path": "../Core/Src/stm32h7xx_hal_msp.c"
+                  },
+                  {
+                    "path": "../Core/Src/stm32h7xx_it.c"
                   },
                   {
                     "path": "../Core/Src/tim.c"
                   },
                   {
                     "path": "../Core/Src/usart.c"
-                  },
-                  {
-                    "path": "../Core/Src/stm32h7xx_it.c"
-                  },
-                  {
-                    "path": "../Core/Src/stm32h7xx_hal_msp.c"
                   }
                 ],
                 "folders": []

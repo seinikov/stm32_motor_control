@@ -94,7 +94,7 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN Private defines */
 #define PID_INTERVAL  30//ms
-#define UI_INTERVAL   1000//ms
+#define UI_INTERVAL   50//ms
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

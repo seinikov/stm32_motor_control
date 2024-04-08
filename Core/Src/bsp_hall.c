@@ -34,7 +34,7 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
     if(global_motorsta==MOTOR_STA_ENABLE){
         MOTOR_Control(&htim1,hall_current_phase);
     }
-    hall_compare=__HAL_TIM_GET_COMPARE(htim,TIM_CHANNEL_1);
+    hall_compare+=__HAL_TIM_GET_COMPARE(htim,TIM_CHANNEL_1);
     hall_count++;
     if(hall_dir_ccw[hall_current_phase]==hall_last_pahse){
         hall_dir=MOTOR_DIR_CCW;
@@ -47,7 +47,7 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
 
 float HALLSENSOR_SpeedFrequency_Hz(void){
     float compare_pre_time=0;
-    if((0==hall_count)||(0==hall_compare)){
+    if((0==hall_count)|(0==hall_compare)){
         return 0;
     }
     else{
