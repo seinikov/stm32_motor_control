@@ -3,8 +3,8 @@
  * Auto generated Run-Time-Environment Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'pmsm_hall_control' 
- * Target:  'pmsm_hall_control' 
+ * Project: 'bldc_hall_6step_speed' 
+ * Target:  'bldc_hall_6step_speed' 
  */
 
 #ifndef RTE_COMPONENTS_H
