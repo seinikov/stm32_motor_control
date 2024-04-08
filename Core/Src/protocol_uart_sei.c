@@ -1,6 +1,7 @@
 #include "main.h"
 #include "tim.h"
 #include "usart.h"
+#include "bsp_hall.h"
 #include "algorithm_pid.h"
 #include "protocol_uart_sei.h"
 
@@ -29,7 +30,7 @@ void Protocol_UARTxRXProcess(void){
           {
           case CMD_SET_PARA_TARGET:
           {
-            motor_speed_pid.target_val=*((float*)&temp_para);
+            motor_speed_pid.target_val=roundf(*((float*)&temp_para)/60.f*PPR);
             break;
           }
           case CMD_SET_PARA_P:
