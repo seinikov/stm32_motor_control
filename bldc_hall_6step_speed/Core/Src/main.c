@@ -60,7 +60,7 @@ MotorDir_Typedef global_motordir;
 FOLPF_HandleTypeDef global_speed_hz;
 PID_LOC_HandleTypedef motor_speed_pid;
 uint32_t global_pwm_duty=0;
-uint8_t state=0x00;
+uint8_t global_state=0x00;
 uint8_t uart_rx_buffer[UART_BUFFER_LEN];
 float32_t motor_control_val=0;
 /* USER CODE END PV */
@@ -82,10 +82,12 @@ void SystemClock_Config(void);
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
-/* Enable the CPU Cache */
+
+  /* Enable the CPU Cache */
 
   /* Enable I-Cache---------------------------------------------------------*/
   SCB_EnableICache();
@@ -116,12 +118,12 @@ int main(void)
   MX_TIM1_Init();
   MX_UART4_Init();
   /* USER CODE BEGIN 2 */
-  __HAL_DBGMCU_FREEZE_TIM1();
-  __HAL_DBGMCU_FREEZE_TIM3();
+  // __HAL_DBGMCU_FREEZE_TIM1();
+  // __HAL_DBGMCU_FREEZE_TIM3();
   HALLSENSOR_TIMxStart(&htim3);
   global_motorsta=MOTOR_STA_DISABLE;
   FLOAT_FirstOrderLowPassFiltering_DataInit(&global_speed_hz,SPEED_HZ_FILTERING_ALPHA);
-  PID_LOC_Init(&motor_speed_pid,round(500./60.*PPR),0.75f,0.45f,0.f);
+  PID_LOC_Init(&motor_speed_pid,round(0./60.*PPR),0.75f,0.45f,0.f);
   
   __HAL_UART_ENABLE_IT(&huart4,UART_IT_IDLE);
   HAL_UART_Receive_DMA(&huart4,(uint8_t *)uart_rx_buffer,UART_BUFFER_LEN);
@@ -129,11 +131,16 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  MOTOR_Start(&htim1,&htim3);
   while (1)
   {
     Protocol_UARTxRXProcess();
-    if(state&0x01){
+    if(GPIO_PIN_RESET==HAL_GPIO_ReadPin(KEY1_GPIO_Port,KEY1_Pin)){
+      MOTOR_Start(&htim1,&htim3);
+    }
+    if(GPIO_PIN_RESET==HAL_GPIO_ReadPin(KEY2_GPIO_Port,KEY2_Pin)){
+      MOTOR_Breaking_Inertia();
+    }
+    if(global_state&0x01){
       global_speed_hz.current_val=HALLSENSOR_SpeedFrequency_Hz();
       FLOAT_FirstOrderLowPassFiltering_Process(&global_speed_hz);
       if(0==global_speed_hz.current_val){
@@ -144,11 +151,15 @@ int main(void)
       }
       motor_control_val=PID_LOC_Process(&motor_speed_pid,global_speed_hz.current_val);
       MOTOR_SpeedControl(&htim1,round(motor_control_val));
-      state&=~0x01;
+      global_state&=~0x01;
     }
-    if(state&0x02){
+    if(global_state&0x02){
+      if(MOTOR_STA_DISABLE==global_motorsta){
+        global_speed_hz.current_val=HALLSENSOR_SpeedFrequency_Hz();
+        FLOAT_FirstOrderLowPassFiltering_Process(&global_speed_hz);
+      }
       Protocol_NIMING_Mortor(&huart4,0xF1,global_speed_hz.current_val,global_speed_hz.current_val/PPR,(global_speed_hz.current_val/PPR)*60);
-      state&=~0x02;
+      global_state&=~0x02;
     }
     /* USER CODE END WHILE */
 

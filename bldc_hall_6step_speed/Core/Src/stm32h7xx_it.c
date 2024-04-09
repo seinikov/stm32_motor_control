@@ -22,6 +22,7 @@
 #include "stm32h7xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "bsp_motor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -42,7 +43,6 @@
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
 uint8_t idleflag;
-extern uint8_t state;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -60,7 +60,8 @@ extern TIM_HandleTypeDef htim3;
 extern DMA_HandleTypeDef hdma_uart4_rx;
 extern UART_HandleTypeDef huart4;
 /* USER CODE BEGIN EV */
-
+extern uint8_t global_state;
+extern MotorSta_Typedef global_motorsta;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -192,11 +193,13 @@ void SysTick_Handler(void)
   /* USER CODE BEGIN SysTick_IRQn 1 */
   static uint32_t cnt = 0;
   cnt++;
-  if(0==(cnt % PID_INTERVAL)){
-    state|=0x01;
+  if(MOTOR_STA_ENABLE==global_motorsta){
+    if(0==(cnt % PID_INTERVAL)){
+      global_state|=0x01;
+    }
   }
   if(0==(cnt%UI_INTERVAL)){
-    state|=0x02;
+    global_state|=0x02;
   }
   /* USER CODE END SysTick_IRQn 1 */
 }

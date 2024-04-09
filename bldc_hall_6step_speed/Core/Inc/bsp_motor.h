@@ -25,6 +25,10 @@ void MOTOR_Control(TIM_HandleTypeDef *motor_tim_handle,uint8_t hall_phase);
 
 void MOTOR_Start(TIM_HandleTypeDef *motor_tim_handle,TIM_HandleTypeDef *hall_sensor_tim_handle);
 
+void MOTOR_Breaking_Inertia(void);
+
+void MOTOR_Breaking_LowBridge(TIM_HandleTypeDef *motor_tim_handle);
+
 void MOTOR_SpeedControl(TIM_HandleTypeDef *motor_tim_handle,int32_t tim_control_val);
 
 #endif
