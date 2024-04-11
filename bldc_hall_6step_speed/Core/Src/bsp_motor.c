@@ -170,11 +170,11 @@ void MOTOR_Start(TIM_HandleTypeDef *motor_tim_handle,TIM_HandleTypeDef *hall_sen
 
 void MOTOR_SpeedControl(TIM_HandleTypeDef *motor_tim_handle,int32_t tim_control_val){
     uint32_t hall_current_phase=0;
-    if(tim_control_val>(MOTOR_TIM_PERIOD-20)){
-        tim_control_val=(MOTOR_TIM_PERIOD-20);
+    if(tim_control_val>(MOTOR_TIM_PERIOD)){
+        tim_control_val=(MOTOR_TIM_PERIOD);
     }
-    else if(tim_control_val<200){
-        tim_control_val=200;
+    else if(tim_control_val<0){
+        tim_control_val=0;
     }
     global_pwm_duty=tim_control_val;
     hall_current_phase=HALLSENSOR_GetPhase();

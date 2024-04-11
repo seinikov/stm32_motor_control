@@ -14,6 +14,12 @@ void PID_LOC_Init(PID_LOC_HandleTypedef *pid_obj,float32_t init_target,float32_t
 float PID_LOC_Process(PID_LOC_HandleTypedef *pid_obj,float current_val){
     pid_obj->err=pid_obj->target_val-current_val;
     pid_obj->integral+=pid_obj->err;
+
+    /*积分器抗饱和超调*/
+    /*需要仿真验证理论*/
+    if(pid_obj->integral>10000){
+        pid_obj->integral=10000;
+    }
     
     pid_obj->control_val = pid_obj->Kp*pid_obj->err
                         + pid_obj->Ki*pid_obj->integral

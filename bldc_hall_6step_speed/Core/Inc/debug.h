@@ -7,4 +7,7 @@
 
 #define SPEED_HZ_FILTERING_ALPHA 0.8f
 
+#define BREAKING_LOWBRIDGE       0
+#define BREAKING_INERTIA         !BREAKING_LOWBRIDGE
+
 #endif

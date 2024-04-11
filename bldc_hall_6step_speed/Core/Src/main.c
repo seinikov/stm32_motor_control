@@ -131,21 +131,49 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  MOTOR_Start(&htim1,&htim3);
   while (1)
   {
     Protocol_UARTxRXProcess();
+
     if(GPIO_PIN_RESET==HAL_GPIO_ReadPin(KEY1_GPIO_Port,KEY1_Pin)){
-      MOTOR_Start(&htim1,&htim3);
+      MOTOR_ENABLE();
+      global_motorsta=MOTOR_STA_ENABLE;
     }
+    
     if(GPIO_PIN_RESET==HAL_GPIO_ReadPin(KEY2_GPIO_Port,KEY2_Pin)){
+
+#if BREAKING_INERTIA
       MOTOR_Breaking_Inertia();
+#endif
+#if BREAKING_LOWBRIDGE
+      MOTOR_Breaking_LowBridge(&htim1);
+#endif
+
+      /*速度必须归零否则启动时震颤*/
+      motor_control_val=0;
+      MOTOR_SpeedControl(&htim1,round(motor_control_val));
+
+      global_speed_hz.current_val = 0;
+      global_speed_hz.last_val    = 0;
+      motor_speed_pid.control_val = 0;
+      motor_speed_pid.err         = 0;
+      motor_speed_pid.err_last    = 0;
+      motor_speed_pid.integral    = 0;
     }
+    
     if(global_state&0x01){
       global_speed_hz.current_val=HALLSENSOR_SpeedFrequency_Hz();
       FLOAT_FirstOrderLowPassFiltering_Process(&global_speed_hz);
       if(0==global_speed_hz.current_val){
         uint8_t hall_phase=0;
         hall_phase=HALLSENSOR_GetPhase();
+        
+#if BREAKING_INERTIA
+        /*启动对准相位*/
+        global_pwm_duty=30;
+#endif
+        
         MOTOR_Control(&htim1,hall_phase);
         HAL_TIM_GenerateEvent(&htim1,TIM_EVENTSOURCE_COM);
       }
@@ -153,6 +181,7 @@ int main(void)
       MOTOR_SpeedControl(&htim1,round(motor_control_val));
       global_state&=~0x01;
     }
+    
     if(global_state&0x02){
       if(MOTOR_STA_DISABLE==global_motorsta){
         global_speed_hz.current_val=HALLSENSOR_SpeedFrequency_Hz();
