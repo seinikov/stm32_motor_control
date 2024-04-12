@@ -17,8 +17,8 @@ float PID_LOC_Process(PID_LOC_HandleTypedef *pid_obj,float current_val){
 
     /*积分器抗饱和超调*/
     /*需要仿真验证理论*/
-    if(pid_obj->integral>10000){
-        pid_obj->integral=10000;
+    if(pid_obj->integral>12000){
+        pid_obj->integral=12000;
     }
     
     pid_obj->control_val = pid_obj->Kp*pid_obj->err

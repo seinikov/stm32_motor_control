@@ -17,7 +17,6 @@ void Protocol_UARTxRXProcess(void){
     idleflag=0;
     rx_num=UART_BUFFER_LEN-__HAL_DMA_GET_COUNTER(&hdma_uart4_rx);
     if(7==rx_num){
-      SCB_InvalidateDCache_by_Addr((uint8_t *)uart_rx_buffer,rx_num);
       if(0xC0==uart_rx_buffer[0]){
         uint8_t checksum=uart_rx_buffer[0];
         uint8_t counter;
