@@ -67,7 +67,9 @@ float32_t motor_control_val=0;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+#if MPU_ENABLE
 static void MPU_Config(void);
+#endif
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -89,8 +91,9 @@ int main(void)
   /* USER CODE END 1 */
 
   /* MPU Configuration--------------------------------------------------------*/
+#if MPU_ENABLE
   MPU_Config();
-
+#endif
   /* Enable the CPU Cache */
 
   /* Enable I-Cache---------------------------------------------------------*/
@@ -154,7 +157,7 @@ int main(void)
       MOTOR_Breaking_LowBridge(&htim1);
 #endif
 
-      /*速度必须归零否则启动时震颤*/
+      /*速度必须归零否则启动时震颤?*/
       motor_control_val=0;
       MOTOR_SpeedControl(&htim1,round(motor_control_val));
 
@@ -269,7 +272,7 @@ void SystemClock_Config(void)
 /* USER CODE END 4 */
 
  /* MPU Configuration */
-
+#if MPU_ENABLE
 void MPU_Config(void)
 {
   MPU_Region_InitTypeDef MPU_InitStruct = {0};
@@ -296,7 +299,7 @@ void MPU_Config(void)
   HAL_MPU_Enable(MPU_HFNMI_PRIVDEF);
 
 }
-
+#endif
 /**
   * @brief  This function is executed in case of error occurrence.
   * @retval None

@@ -10,4 +10,7 @@
 #define BREAKING_LOWBRIDGE       0
 #define BREAKING_INERTIA         !BREAKING_LOWBRIDGE
 
+#define MPU_ENABLE               1
+#define MPU_DISABLE              !MPU_ENABLE
+
 #endif
