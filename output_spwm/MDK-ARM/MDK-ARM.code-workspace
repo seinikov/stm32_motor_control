@@ -6,7 +6,8 @@
     ],
     "settings": {
         "files.associations": {
-            "algorithm_pid.h": "c"
+            "algorithm_spwm.h": "c",
+            "arm_math.h": "c"
         }
     },
     "extensions": {}

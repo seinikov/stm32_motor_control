@@ -1,5 +1,5 @@
 {
-  "name": "bldc_hall_6step_speed",
+  "name": "output_spwm",
   "type": "ARM",
   "dependenceList": [],
   "srcDirs": [
@@ -35,22 +35,7 @@
                 "name": "Core",
                 "files": [
                   {
-                    "path": "../Core/Inc/debug.h"
-                  },
-                  {
-                    "path": "../Core/Src/algorithm_filtering.c"
-                  },
-                  {
-                    "path": "../Core/Src/algorithm_pid.c"
-                  },
-                  {
-                    "path": "../Core/Src/bsp_hall.c"
-                  },
-                  {
-                    "path": "../Core/Src/bsp_motor.c"
-                  },
-                  {
-                    "path": "../Core/Src/data_ring_buffer.c"
+                    "path": "../Core/Src/algorithm_spwm.c"
                   },
                   {
                     "path": "../Core/Src/dma.c"
@@ -60,12 +45,6 @@
                   },
                   {
                     "path": "../Core/Src/main.c"
-                  },
-                  {
-                    "path": "../Core/Src/protocol_niming_upper.c"
-                  },
-                  {
-                    "path": "../Core/Src/protocol_uart_sei.c"
                   },
                   {
                     "path": "../Core/Src/stm32h7xx_hal_msp.c"
@@ -173,10 +152,10 @@
   "deviceName": null,
   "packDir": null,
   "miscInfo": {
-    "uid": "22c560aba62a439ba456ac847e4aacbf"
+    "uid": "66c540eb3959a866defd67e3e418c41a"
   },
   "targets": {
-    "bldc_hall_6step_speed": {
+    "output_spwm": {
       "excludeList": [],
       "toolchain": "AC5",
       "compileConfig": {
@@ -301,7 +280,7 @@
         "speed": 4000,
         "address": "0x8000000",
         "elFile": "None",
-        "optionBytes": ".eide/bldc_hall_6step_speed.st.option.bytes.ini",
+        "optionBytes": ".eide/output_spwm.st.option.bytes.ini",
         "otherCmds": ""
       },
       "uploadConfigMap": {
@@ -309,11 +288,11 @@
           "bin": "",
           "baseAddr": "",
           "cpuInfo": {
-            "vendor": "ST",
-            "cpuName": "STM32H743II"
+            "vendor": "null",
+            "cpuName": "null"
           },
           "proType": 1,
-          "speed": 5000,
+          "speed": 8000,
           "otherCmds": ""
         }
       },
@@ -326,7 +305,7 @@
           "../Drivers/CMSIS/Device/ST/STM32H7xx/Include",
           "../Drivers/CMSIS/Include",
           "../Middlewares/ST/ARM/DSP/Inc",
-          "RTE/_bldc_hall_6step_speed"
+          "RTE/_output_spwm"
         ],
         "libList": [],
         "sourceDirList": [],
