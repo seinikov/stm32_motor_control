@@ -25,7 +25,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "algorithm_spwm.h"
+#include "arm_math.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -46,7 +47,9 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+int32_t acceleration=1;
+float32_t init_frequence=10.f;
+float32_t max_frequence=70.f;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/

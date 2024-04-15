@@ -70,6 +70,15 @@
         "files": [],
         "folders": [
           {
+            "name": "CMSIS",
+            "files": [
+              {
+                "path": "../Core/Src/system_stm32h7xx.c"
+              }
+            ],
+            "folders": []
+          },
+          {
             "name": "STM32H7xx_HAL_Driver",
             "files": [
               {
@@ -131,15 +140,6 @@
               },
               {
                 "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c"
-              }
-            ],
-            "folders": []
-          },
-          {
-            "name": "CMSIS",
-            "files": [
-              {
-                "path": "../Core/Src/system_stm32h7xx.c"
               }
             ],
             "folders": []

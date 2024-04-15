@@ -157,7 +157,8 @@ int main(void)
       MOTOR_Breaking_LowBridge(&htim1);
 #endif
 
-      /*速度必须归零否则启动时震颤*/
+      /*speed_duty or control_val must be zero when motor enable*/
+      /********if not motor will shake while motor runing********/
       motor_control_val=0;
       MOTOR_SpeedControl(&htim1,round(motor_control_val));
 
@@ -177,7 +178,7 @@ int main(void)
         hall_phase=HALLSENSOR_GetPhase();
         
 #if BREAKING_INERTIA
-        /*启动对准相位*/
+        /*aim to phase when motor enable*/
         global_pwm_duty=30;
 #endif
         
