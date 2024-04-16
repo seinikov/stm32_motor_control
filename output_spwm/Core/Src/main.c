@@ -25,8 +25,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "algorithm_spwm.h"
 #include "arm_math.h"
+#include "algorithm_spwm.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -48,8 +48,9 @@
 
 /* USER CODE BEGIN PV */
 int32_t acceleration=1;
-float32_t init_frequence=10.f;
+float32_t frequence;
 float32_t max_frequence=70.f;
+SPWM_HandelTypedef global_spwm;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -105,17 +106,37 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_TIM3_Init();
   MX_TIM1_Init();
   MX_UART4_Init();
   /* USER CODE BEGIN 2 */
+  SPWM_ParaInit(&global_spwm,400,0,0,PI_X2_DIV3,-PI_X2_DIV3,1);
+
   HAL_GPIO_WritePin(MOTOR_ENABLE_GPIO_Port,MOTOR_ENABLE_Pin,GPIO_PIN_SET);
+
+  frequence=10.f;
+
+  SPWM_Modulation(&htim1,&global_spwm,frequence);
+
+  __HAL_DBGMCU_FREEZE_TIM1();
+
+  HAL_Delay(3000);
+
+  SPWM_Drive(&htim1,&global_spwm);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    HAL_Delay(10);
+    SPWM_Modulation(&htim1,&global_spwm,frequence+=acceleration);
+    if((frequence>=50.f)||frequence<=-50.f){
+      global_spwm.voltage_div_frequence=0.8f;
+    }
+    if((frequence>=max_frequence)||(frequence<=-max_frequence)){
+      frequence-=acceleration;
+    }
+    
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
