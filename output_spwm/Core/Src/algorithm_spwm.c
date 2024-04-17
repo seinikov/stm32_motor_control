@@ -1,5 +1,4 @@
 #include "main.h"
-#include "arm_math.h"
 #include "math.h"
 #include "algorithm_spwm.h"
 
@@ -49,7 +48,7 @@ void SPWM_Drive(TIM_HandleTypeDef *htim,SPWM_HandelTypedef *spwm_obj){
     uint16_t ccr2=0;
     uint16_t ccr3=0;
 
-    ccr2=((htim->Init.Period+1)/2)*(1.f+spwm_obj->modulation_ration*(arm_sin_f32(spwm_obj->UV_phase)));
+    ccr2=((htim->Init.Period+1)/2)*(1.f+spwm_obj->modulation_ration*(sinf(spwm_obj->UV_phase)));
     ccr3=((htim->Init.Period+1)/2)*(1.f+spwm_obj->modulation_ration*(sinf(spwm_obj->UW_phase)));
 
     __HAL_TIM_SetCompare(htim,TIM_CHANNEL_1,((htim->Init.Period+1)/2));
