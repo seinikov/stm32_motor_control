@@ -109,19 +109,19 @@ int main(void)
   MX_TIM1_Init();
   MX_UART4_Init();
   /* USER CODE BEGIN 2 */
-  SPWM_ParaInit(&global_spwm,400,0,0,PI_X2_DIV3,-PI_X2_DIV3,1);
+  SPWM_ParaInit(&global_spwm,400.f,0.f,0.f,PI_X2_DIV3,-PI_X2_DIV3,1.f);
 
   HAL_GPIO_WritePin(MOTOR_ENABLE_GPIO_Port,MOTOR_ENABLE_Pin,GPIO_PIN_SET);
 
   frequence=10.f;
 
-  SPWM_Modulation(&htim1,&global_spwm,frequence);
+  SPWM_Modulation(&htim1,&global_spwm,0);
 
   __HAL_DBGMCU_FREEZE_TIM1();
 
   HAL_Delay(3000);
 
-  SPWM_Drive(&htim1,&global_spwm);
+  SPWM_Start(&htim1,&global_spwm);
   /* USER CODE END 2 */
 
   /* Infinite loop */
