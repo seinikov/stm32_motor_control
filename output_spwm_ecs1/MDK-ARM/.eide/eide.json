@@ -140,7 +140,7 @@
   "deviceName": null,
   "packDir": null,
   "miscInfo": {
-    "uid": "82981659e055958509c0ca2702f2be80"
+    "uid": "e556c4fd19e16ed1e4bdb85f3b522b5e"
   },
   "targets": {
     "output_spwm_ecs1": {
@@ -264,8 +264,8 @@
         "bin": "",
         "baseAddr": "",
         "cpuInfo": {
-          "vendor": "null",
-          "cpuName": "null"
+          "vendor": "ST",
+          "cpuName": "STM32G431CB"
         },
         "proType": 1,
         "speed": 8000,

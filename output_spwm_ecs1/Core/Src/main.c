@@ -18,15 +18,12 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "cordic.h"
-#include "dma.h"
 #include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "algorithm_spwm.h"
-#include "bsp_cordic.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -105,12 +102,8 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
-  MX_CORDIC_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-  CORDICx_Config(&global_cordic);
-
   SPWM_ParaInit(&global_spwm,400.f,0.f,0.f,PI_X2_DIV3,-PI_X2_DIV3,1.f);
 
   frequence=10.f;
