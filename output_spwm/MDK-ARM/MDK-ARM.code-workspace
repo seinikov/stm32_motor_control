@@ -4,10 +4,6 @@
             "path": "."
         }
     ],
-    "settings": {
-        "files.associations": {
-            "algorithm_spwm.h": "c"
-        }
-    },
+    "settings": {},
     "extensions": {}
 }
