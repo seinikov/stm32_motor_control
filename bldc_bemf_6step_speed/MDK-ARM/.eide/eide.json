@@ -35,10 +35,25 @@
                 "name": "Core",
                 "files": [
                   {
+                    "path": "../Core/Inc/debug.h"
+                  },
+                  {
                     "path": "../Core/Src/adc.c"
                   },
                   {
-                    "path": "../Core/Src/bdma.c"
+                    "path": "../Core/Src/algorithm_filtering.c"
+                  },
+                  {
+                    "path": "../Core/Src/algorithm_pid.c"
+                  },
+                  {
+                    "path": "../Core/Src/bsp_hall.c"
+                  },
+                  {
+                    "path": "../Core/Src/bsp_motor.c"
+                  },
+                  {
+                    "path": "../Core/Src/data_ring_buffer.c"
                   },
                   {
                     "path": "../Core/Src/dma.c"
@@ -48,6 +63,12 @@
                   },
                   {
                     "path": "../Core/Src/main.c"
+                  },
+                  {
+                    "path": "../Core/Src/protocol_niming_upper.c"
+                  },
+                  {
+                    "path": "../Core/Src/protocol_uart_sei.c"
                   },
                   {
                     "path": "../Core/Src/stm32h7xx_hal_msp.c"
@@ -73,34 +94,13 @@
         "files": [],
         "folders": [
           {
-            "name": "CMSIS",
-            "files": [
-              {
-                "path": "../Core/Src/system_stm32h7xx.c"
-              }
-            ],
-            "folders": []
-          },
-          {
             "name": "STM32H7xx_HAL_Driver",
             "files": [
               {
-                "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_exti.c"
+                "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.c"
               },
               {
-                "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_gpio.c"
-              },
-              {
-                "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_adc.c"
-              },
-              {
-                "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_bdma.c"
-              },
-              {
-                "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_rcc.c"
-              },
-              {
-                "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_utils.c"
+                "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c"
               },
               {
                 "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c"
@@ -151,22 +151,25 @@
                 "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti.c"
               },
               {
-                "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_dma.c"
-              },
-              {
                 "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.c"
               },
               {
                 "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c"
               },
               {
-                "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_tim.c"
-              },
-              {
                 "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c"
               },
               {
                 "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c"
+              }
+            ],
+            "folders": []
+          },
+          {
+            "name": "CMSIS",
+            "files": [
+              {
+                "path": "../Core/Src/system_stm32h7xx.c"
               }
             ],
             "folders": []
@@ -298,16 +301,16 @@
         },
         "options": "null"
       },
-      "uploader": "STLink",
+      "uploader": "JLink",
       "uploadConfig": {
         "bin": "",
-        "proType": "SWD",
-        "resetMode": "default",
-        "runAfterProgram": true,
-        "speed": 4000,
-        "address": "0x8000000",
-        "elFile": "None",
-        "optionBytes": ".eide/bldc_bemf_6step_speed.st.option.bytes.ini",
+        "baseAddr": "",
+        "cpuInfo": {
+          "vendor": "ST",
+          "cpuName": "STM32H743II"
+        },
+        "proType": 1,
+        "speed": 8000,
         "otherCmds": ""
       },
       "uploadConfigMap": {
@@ -321,6 +324,17 @@
           "proType": 1,
           "speed": 8000,
           "otherCmds": ""
+        },
+        "STLink": {
+          "bin": "",
+          "proType": "SWD",
+          "resetMode": "default",
+          "runAfterProgram": true,
+          "speed": 4000,
+          "address": "0x8000000",
+          "elFile": "None",
+          "optionBytes": ".eide/bldc_bemf_6step_speed.st.option.bytes.ini",
+          "otherCmds": ""
         }
       },
       "custom_dep": {
@@ -332,14 +346,11 @@
           "../Drivers/CMSIS/Device/ST/STM32H7xx/Include",
           "../Drivers/CMSIS/Include",
           "../Middlewares/ST/ARM/DSP/Inc",
-          ".cmsis/include",
-          "RTE/_bldc_bemf_6step_speed",
-          ".eide/deps"
+          "RTE/_bldc_bemf_6step_speed"
         ],
         "libList": [],
         "sourceDirList": [],
         "defineList": [
-          "USE_FULL_LL_DRIVER",
           "USE_HAL_DRIVER",
           "STM32H743xx",
           "__TARGET_FPU_VFP",
