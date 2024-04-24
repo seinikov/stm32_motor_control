@@ -53,8 +53,8 @@ void SPWM_Start(TIM_TypeDef *TIMx,SPWM_HandelTypedef *spwm_obj){
     ccr2=((TIMx->ARR+1)/2)*(1.f+MODULATION_RATIO*(sinf(spwm_obj->UV_phase)));
     ccr3=((TIMx->ARR+1)/2)*(1.f+MODULATION_RATIO*(sinf(spwm_obj->UW_phase)));
 
-    LL_TIM_EnableAllOutputs(TIMx);
     LL_TIM_EnableCounter(TIMx);
+    LL_TIM_EnableAllOutputs(TIMx);
 
     LL_TIM_OC_SetCompareCH1(TIMx,((TIMx->ARR+1)/2));
     LL_TIM_OC_SetCompareCH2(TIMx,ccr2);

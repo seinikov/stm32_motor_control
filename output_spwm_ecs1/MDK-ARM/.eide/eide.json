@@ -38,15 +38,6 @@
                     "path": "../Core/Src/algorithm_spwm.c"
                   },
                   {
-                    "path": "../Core/Src/bsp_cordic.c"
-                  },
-                  {
-                    "path": "../Core/Src/cordic.c"
-                  },
-                  {
-                    "path": "../Core/Src/dma.c"
-                  },
-                  {
                     "path": "../Core/Src/gpio.c"
                   },
                   {
@@ -82,16 +73,13 @@
                 "path": "../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_gpio.c"
               },
               {
-                "path": "../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_cordic.c"
-              },
-              {
-                "path": "../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_dma.c"
-              },
-              {
                 "path": "../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_pwr.c"
               },
               {
                 "path": "../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_tim.c"
+              },
+              {
+                "path": "../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_dma.c"
               }
             ],
             "folders": []
