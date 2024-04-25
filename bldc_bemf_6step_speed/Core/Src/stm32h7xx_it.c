@@ -55,7 +55,6 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern DMA_HandleTypeDef hdma_adc3;
 extern DMA_HandleTypeDef hdma_uart4_rx;
 extern UART_HandleTypeDef huart4;
 /* USER CODE BEGIN EV */
@@ -222,7 +221,7 @@ void DMA1_Stream1_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Stream1_IRQn 0 */
 
   /* USER CODE END DMA1_Stream1_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_adc3);
+
   /* USER CODE BEGIN DMA1_Stream1_IRQn 1 */
 
   /* USER CODE END DMA1_Stream1_IRQn 1 */
