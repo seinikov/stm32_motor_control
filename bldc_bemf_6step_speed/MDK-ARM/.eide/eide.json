@@ -97,6 +97,15 @@
         "files": [],
         "folders": [
           {
+            "name": "CMSIS",
+            "files": [
+              {
+                "path": "../Core/Src/system_stm32h7xx.c"
+              }
+            ],
+            "folders": []
+          },
+          {
             "name": "STM32H7xx_HAL_Driver",
             "files": [
               {
@@ -182,15 +191,6 @@
               }
             ],
             "folders": []
-          },
-          {
-            "name": "CMSIS",
-            "files": [
-              {
-                "path": "../Core/Src/system_stm32h7xx.c"
-              }
-            ],
-            "folders": []
           }
         ]
       }
@@ -200,7 +200,7 @@
   "deviceName": null,
   "packDir": null,
   "miscInfo": {
-    "uid": "277594fc0398fd74a4ab70a6bf30d9af"
+    "uid": "7175508cfe1202de2fd8a59fe56fa024"
   },
   "targets": {
     "bldc_bemf_6step_speed": {
@@ -324,37 +324,14 @@
         "bin": "",
         "baseAddr": "",
         "cpuInfo": {
-          "vendor": "ST",
-          "cpuName": "STM32H743II"
+          "vendor": "null",
+          "cpuName": "null"
         },
         "proType": 1,
         "speed": 8000,
         "otherCmds": ""
       },
-      "uploadConfigMap": {
-        "JLink": {
-          "bin": "",
-          "baseAddr": "",
-          "cpuInfo": {
-            "vendor": "null",
-            "cpuName": "null"
-          },
-          "proType": 1,
-          "speed": 8000,
-          "otherCmds": ""
-        },
-        "STLink": {
-          "bin": "",
-          "proType": "SWD",
-          "resetMode": "default",
-          "runAfterProgram": true,
-          "speed": 4000,
-          "address": "0x8000000",
-          "elFile": "None",
-          "optionBytes": ".eide/bldc_bemf_6step_speed.st.option.bytes.ini",
-          "otherCmds": ""
-        }
-      },
+      "uploadConfigMap": {},
       "custom_dep": {
         "name": "default",
         "incList": [
@@ -369,12 +346,12 @@
         "libList": [],
         "sourceDirList": [],
         "defineList": [
+          "USE_FULL_LL_DRIVER",
           "USE_HAL_DRIVER",
           "STM32H743xx",
           "__TARGET_FPU_VFP",
           "__CC_ARM",
-          "ARM_MATH_CM7",
-          "USE_FULL_LL_DRIVER"
+          "ARM_MATH_CM7"
         ]
       }
     }

@@ -4,10 +4,6 @@
             "path": "."
         }
     ],
-    "settings": {
-        "files.associations": {
-            "bsp_bemf.h": "c"
-        }
-    },
+    "settings": {},
     "extensions": {}
 }

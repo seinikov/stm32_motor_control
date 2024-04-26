@@ -173,7 +173,7 @@
   "deviceName": null,
   "packDir": null,
   "miscInfo": {
-    "uid": "22c560aba62a439ba456ac847e4aacbf"
+    "uid": "597ab50419359cf2fe31ba4a239515c9"
   },
   "targets": {
     "bldc_hall_6step_speed": {
@@ -309,11 +309,11 @@
           "bin": "",
           "baseAddr": "",
           "cpuInfo": {
-            "vendor": "ST",
-            "cpuName": "STM32H743II"
+            "vendor": "null",
+            "cpuName": "null"
           },
           "proType": 1,
-          "speed": 5000,
+          "speed": 8000,
           "otherCmds": ""
         }
       },
@@ -326,7 +326,9 @@
           "../Drivers/CMSIS/Device/ST/STM32H7xx/Include",
           "../Drivers/CMSIS/Include",
           "../Middlewares/ST/ARM/DSP/Inc",
-          "RTE/_bldc_hall_6step_speed"
+          ".cmsis/include",
+          "RTE/_bldc_hall_6step_speed",
+          ".eide/deps"
         ],
         "libList": [],
         "sourceDirList": [],

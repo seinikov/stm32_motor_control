@@ -152,7 +152,7 @@
   "deviceName": null,
   "packDir": null,
   "miscInfo": {
-    "uid": "66c540eb3959a866defd67e3e418c41a"
+    "uid": "b9764f92aa51a9ec7027877a3e4990dd"
   },
   "targets": {
     "output_spwm": {
@@ -305,8 +305,9 @@
           "../Drivers/CMSIS/Device/ST/STM32H7xx/Include",
           "../Drivers/CMSIS/Include",
           "../Middlewares/ST/ARM/DSP/Inc",
-          "../Drivers/CMSIS/DSP/Include",
-          "RTE/_output_spwm"
+          ".cmsis/include",
+          "RTE/_output_spwm",
+          ".eide/deps"
         ],
         "libList": [],
         "sourceDirList": [],
