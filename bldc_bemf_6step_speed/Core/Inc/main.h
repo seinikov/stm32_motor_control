@@ -29,8 +29,6 @@ extern "C" {
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_hal.h"
 
-#include "stm32h7xx_ll_adc.h"
-#include "stm32h7xx_ll_dma.h"
 #include "stm32h7xx_ll_rcc.h"
 #include "stm32h7xx_ll_crs.h"
 #include "stm32h7xx_ll_bus.h"
@@ -39,6 +37,7 @@ extern "C" {
 #include "stm32h7xx_ll_cortex.h"
 #include "stm32h7xx_ll_utils.h"
 #include "stm32h7xx_ll_pwr.h"
+#include "stm32h7xx_ll_dma.h"
 #include "stm32h7xx_ll_tim.h"
 #include "stm32h7xx_ll_gpio.h"
 
@@ -82,12 +81,12 @@ void Error_Handler(void);
 #define KEY3_GPIO_Port GPIOI
 #define KEY4_Pin LL_GPIO_PIN_11
 #define KEY4_GPIO_Port GPIOI
-#define W_BEMF_Pin LL_GPIO_PIN_3
-#define W_BEMF_GPIO_Port GPIOH
-#define V_BEMF_Pin LL_GPIO_PIN_4
-#define V_BEMF_GPIO_Port GPIOH
-#define U_BEMF_Pin LL_GPIO_PIN_5
-#define U_BEMF_GPIO_Port GPIOH
+#define BEMF_W_Pin LL_GPIO_PIN_3
+#define BEMF_W_GPIO_Port GPIOH
+#define BEMF_V_Pin LL_GPIO_PIN_4
+#define BEMF_V_GPIO_Port GPIOH
+#define BEMF_U_Pin LL_GPIO_PIN_5
+#define BEMF_U_GPIO_Port GPIOH
 #define LED3_Pin LL_GPIO_PIN_12
 #define LED3_GPIO_Port GPIOB
 #define U_LOW_Pin LL_GPIO_PIN_13
@@ -96,6 +95,12 @@ void Error_Handler(void);
 #define V_LOW_GPIO_Port GPIOB
 #define W_LOW_Pin LL_GPIO_PIN_15
 #define W_LOW_GPIO_Port GPIOB
+#define HALL_U_Pin LL_GPIO_PIN_6
+#define HALL_U_GPIO_Port GPIOC
+#define HALL_V_Pin LL_GPIO_PIN_7
+#define HALL_V_GPIO_Port GPIOC
+#define HALL_W_Pin LL_GPIO_PIN_8
+#define HALL_W_GPIO_Port GPIOC
 #define U_HIGH_Pin LL_GPIO_PIN_8
 #define U_HIGH_GPIO_Port GPIOA
 #define V_HIGH_Pin LL_GPIO_PIN_9

@@ -19,11 +19,11 @@ typedef enum {
   MOTOR_STA_ENABLE
 }MotorSta_Typedef ;
 
-void MOTOR_TIMxDriveOutConfigInit(TIM_TypeDef *TIMx,LL_TIM_OC_InitTypeDef *oc_handle);
+void MOTOR_TIMxDriveOutConfigInit(TIM_TypeDef *TIMx);
 
 void MOTOR_SixStepPhaseChange(TIM_TypeDef *TIMx,uint8_t bemf_phase);
 
-void MOTOR_Start(TIM_HandleTypeDef *motor_tim_handle,TIM_HandleTypeDef *hall_sensor_tim_handle);
+void MOTOR_Start(TIM_TypeDef *TIMx,TIM_HandleTypeDef *hall_sensor_tim_handle);
 
 void MOTOR_Breaking_LowBridge(TIM_TypeDef *TIMx);
 

@@ -19,7 +19,7 @@ void Protocol_NIMING_Mortor(UART_HandleTypeDef *use_huart,uint8_t ID,
     tx_buf [counter++]  = ((f2i32_tmp)>>8)&0xFF;
     tx_buf [counter++]  = ((f2i32_tmp)>>16)&0xFF;
     tx_buf [counter++]  = ((f2i32_tmp)>>24)&0xFF;
-    f2i32_tmp=rpm*10;
+    f2i32_tmp=rpm*100;
     tx_buf [counter++]  = (f2i32_tmp)&0xFF;
     tx_buf [counter++]  = ((f2i32_tmp)>>8)&0xFF;
     tx_buf [counter++]  = ((f2i32_tmp)>>16)&0xFF;

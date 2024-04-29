@@ -22,6 +22,8 @@
 #include "stm32h7xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "bsp_motor.h"
+#include "debug.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -41,7 +43,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-
+uint8_t idleflag;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -55,10 +57,13 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern DMA_HandleTypeDef hdma_adc3;
+extern TIM_HandleTypeDef htim3;
 extern DMA_HandleTypeDef hdma_uart4_rx;
 extern UART_HandleTypeDef huart4;
 /* USER CODE BEGIN EV */
-
+extern uint8_t global_state;
+extern MotorSta_Typedef global_motorsta;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -188,6 +193,16 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
+  static uint32_t cnt = 0;
+  cnt++;
+  if(MOTOR_STA_ENABLE==global_motorsta){
+    if(0==(cnt % PID_INTERVAL)){
+      global_state|=0x01;
+    }
+  }
+  if(0==(cnt%UI_INTERVAL)){
+    global_state|=0x02;
+  }
 
   /* USER CODE END SysTick_IRQn 1 */
 }
@@ -221,10 +236,24 @@ void DMA1_Stream1_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Stream1_IRQn 0 */
 
   /* USER CODE END DMA1_Stream1_IRQn 0 */
-
+  HAL_DMA_IRQHandler(&hdma_adc3);
   /* USER CODE BEGIN DMA1_Stream1_IRQn 1 */
 
   /* USER CODE END DMA1_Stream1_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM3 global interrupt.
+  */
+void TIM3_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM3_IRQn 0 */
+
+  /* USER CODE END TIM3_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim3);
+  /* USER CODE BEGIN TIM3_IRQn 1 */
+
+  /* USER CODE END TIM3_IRQn 1 */
 }
 
 /**
@@ -237,7 +266,10 @@ void UART4_IRQHandler(void)
   /* USER CODE END UART4_IRQn 0 */
   HAL_UART_IRQHandler(&huart4);
   /* USER CODE BEGIN UART4_IRQn 1 */
-
+  if(__HAL_UART_GET_FLAG(&huart4,UART_FLAG_IDLE)==SET){
+    __HAL_UART_CLEAR_IDLEFLAG(&huart4);
+    idleflag=1;
+  }
   /* USER CODE END UART4_IRQn 1 */
 }
 

@@ -13,4 +13,7 @@
 #define MPU_ENABLE               1
 #define MPU_DISABLE              !MPU_ENABLE
 
+#define PID_INTERVAL  30//ms
+#define UI_INTERVAL   1//ms
+
 #endif

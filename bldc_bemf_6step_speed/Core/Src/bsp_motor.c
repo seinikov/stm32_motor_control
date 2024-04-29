@@ -8,26 +8,8 @@ extern MotorSta_Typedef global_motorsta;
 extern MotorDir_Typedef global_motordir;
 extern uint32_t global_pwm_duty;
 
-void LL_PWM_Start(TIM_TypeDef *TIMx,uint32_t channels)
+void MOTOR_TIMxDriveOutConfigInit(TIM_TypeDef *TIMx)
 {
-    LL_TIM_CC_EnableChannel(TIMx,channels);
-    LL_TIM_EnableAllOutputs(TIMx);
-    LL_TIM_EnableCounter(TIMx);
-}
-
-void LL_PWM_Stop(TIM_TypeDef *TIMx,uint32_t channels)
-{
-    LL_TIM_CC_DisableChannel(TIMx,channels);
-    LL_TIM_DisableAllOutputs(TIMx);
-    LL_TIM_DisableCounter(TIMx);
-}
-
-void MOTOR_TIMxDriveOutConfigInit(TIM_TypeDef *TIMx,LL_TIM_OC_InitTypeDef *oc_handle)
-{
-    LL_TIM_OC_ConfigOutput(TIMx,LL_TIM_CHANNEL_CH1,LL_TIM_OCPOLARITY_HIGH);
-    LL_TIM_OC_ConfigOutput(TIMx,LL_TIM_CHANNEL_CH2,LL_TIM_OCPOLARITY_HIGH);
-    LL_TIM_OC_ConfigOutput(TIMx,LL_TIM_CHANNEL_CH3,LL_TIM_OCPOLARITY_HIGH);
-
     LL_TIM_SetSlaveMode(TIMx,LL_TIM_TS_ITR2);
     LL_TIM_CC_SetUpdate(TIMx,LL_TIM_CCUPDATESOURCE_COMG_AND_TRGI);
 }
@@ -216,19 +198,19 @@ void MOTOR_Un_Breaking_LowBridge(TIM_TypeDef *TIMx)
     LL_TIM_GenerateEvent_COM(TIMx);
 }
 
-void MOTOR_Start(TIM_TypeDef *TIMx)
+void MOTOR_Start(TIM_TypeDef *TIMx,TIM_HandleTypeDef *hall_sensor_tim_handle)
 {
     uint8_t hall_current_phase;
     MOTOR_ENABLE();
     MOTOR_Breaking_LowBridge(TIMx);
     LL_mDelay(9);
 
-    // __HAL_TIM_CLEAR_FLAG(hall_sensor_tim_handle,TIM_FLAG_CC1);
-    // HAL_TIMEx_HallSensor_Start_IT(hall_sensor_tim_handle);
+    __HAL_TIM_CLEAR_FLAG(hall_sensor_tim_handle,TIM_FLAG_CC1);
+    HAL_TIMEx_HallSensor_Start_IT(hall_sensor_tim_handle);
 
-    // hall_current_phase=HALLSENSOR_GetPhase();
+    hall_current_phase=HALLSENSOR_GetPhase();
 
-    // MOTOR_Control(motor_tim_handle,hall_current_phase);
+    MOTOR_SixStepPhaseChange(TIMx,hall_current_phase);
 
     LL_TIM_GenerateEvent_COM(TIMx);
     LL_TIM_ClearFlag_COM(TIMx);
@@ -248,7 +230,7 @@ void MOTOR_SpeedControl(TIM_TypeDef *TIMx,int32_t tim_control_val)
     }
     global_pwm_duty=tim_control_val;
     
-    // hall_current_phase=HALLSENSOR_GetPhase();
+    hall_current_phase=HALLSENSOR_GetPhase();
     if(MOTOR_DIR_CW==global_motordir){
         hall_current_phase=0x07^hall_current_phase;
     }

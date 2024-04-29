@@ -97,15 +97,6 @@
         "files": [],
         "folders": [
           {
-            "name": "CMSIS",
-            "files": [
-              {
-                "path": "../Core/Src/system_stm32h7xx.c"
-              }
-            ],
-            "folders": []
-          },
-          {
             "name": "STM32H7xx_HAL_Driver",
             "files": [
               {
@@ -115,10 +106,10 @@
                 "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_gpio.c"
               },
               {
-                "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_adc.c"
+                "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.c"
               },
               {
-                "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_dma.c"
+                "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c"
               },
               {
                 "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_rcc.c"
@@ -184,10 +175,22 @@
                 "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_tim.c"
               },
               {
+                "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_dma.c"
+              },
+              {
                 "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c"
               },
               {
                 "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c"
+              }
+            ],
+            "folders": []
+          },
+          {
+            "name": "CMSIS",
+            "files": [
+              {
+                "path": "../Core/Src/system_stm32h7xx.c"
               }
             ],
             "folders": []
@@ -324,11 +327,11 @@
         "bin": "",
         "baseAddr": "",
         "cpuInfo": {
-          "vendor": "null",
-          "cpuName": "null"
+          "vendor": "ST",
+          "cpuName": "STM32H743II"
         },
         "proType": 1,
-        "speed": 8000,
+        "speed": 4000,
         "otherCmds": ""
       },
       "uploadConfigMap": {},

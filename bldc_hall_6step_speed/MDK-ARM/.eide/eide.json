@@ -91,6 +91,15 @@
         "files": [],
         "folders": [
           {
+            "name": "CMSIS",
+            "files": [
+              {
+                "path": "../Core/Src/system_stm32h7xx.c"
+              }
+            ],
+            "folders": []
+          },
+          {
             "name": "STM32H7xx_HAL_Driver",
             "files": [
               {
@@ -152,15 +161,6 @@
               },
               {
                 "path": "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c"
-              }
-            ],
-            "folders": []
-          },
-          {
-            "name": "CMSIS",
-            "files": [
-              {
-                "path": "../Core/Src/system_stm32h7xx.c"
               }
             ],
             "folders": []
@@ -292,16 +292,16 @@
         },
         "options": "null"
       },
-      "uploader": "STLink",
+      "uploader": "JLink",
       "uploadConfig": {
         "bin": "",
-        "proType": "SWD",
-        "resetMode": "default",
-        "runAfterProgram": true,
+        "baseAddr": "",
+        "cpuInfo": {
+          "vendor": "ST",
+          "cpuName": "STM32H743II"
+        },
+        "proType": 1,
         "speed": 4000,
-        "address": "0x8000000",
-        "elFile": "None",
-        "optionBytes": ".eide/bldc_hall_6step_speed.st.option.bytes.ini",
         "otherCmds": ""
       },
       "uploadConfigMap": {
@@ -315,6 +315,17 @@
           "proType": 1,
           "speed": 8000,
           "otherCmds": ""
+        },
+        "STLink": {
+          "bin": "",
+          "proType": "SWD",
+          "resetMode": "default",
+          "runAfterProgram": true,
+          "speed": 4000,
+          "address": "0x8000000",
+          "elFile": "None",
+          "optionBytes": ".eide/bldc_hall_6step_speed.st.option.bytes.ini",
+          "otherCmds": ""
         }
       },
       "custom_dep": {
@@ -326,9 +337,7 @@
           "../Drivers/CMSIS/Device/ST/STM32H7xx/Include",
           "../Drivers/CMSIS/Include",
           "../Middlewares/ST/ARM/DSP/Inc",
-          ".cmsis/include",
-          "RTE/_bldc_hall_6step_speed",
-          ".eide/deps"
+          "RTE/_bldc_hall_6step_speed"
         ],
         "libList": [],
         "sourceDirList": [],
