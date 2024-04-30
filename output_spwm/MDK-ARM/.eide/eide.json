@@ -271,16 +271,16 @@
         },
         "options": "null"
       },
-      "uploader": "STLink",
+      "uploader": "JLink",
       "uploadConfig": {
         "bin": "",
-        "proType": "SWD",
-        "resetMode": "default",
-        "runAfterProgram": true,
+        "baseAddr": "",
+        "cpuInfo": {
+          "vendor": "ST",
+          "cpuName": "STM32H743II"
+        },
+        "proType": 1,
         "speed": 4000,
-        "address": "0x8000000",
-        "elFile": "None",
-        "optionBytes": ".eide/output_spwm.st.option.bytes.ini",
         "otherCmds": ""
       },
       "uploadConfigMap": {
@@ -294,6 +294,17 @@
           "proType": 1,
           "speed": 8000,
           "otherCmds": ""
+        },
+        "STLink": {
+          "bin": "",
+          "proType": "SWD",
+          "resetMode": "default",
+          "runAfterProgram": true,
+          "speed": 4000,
+          "address": "0x8000000",
+          "elFile": "None",
+          "optionBytes": ".eide/output_spwm.st.option.bytes.ini",
+          "otherCmds": ""
         }
       },
       "custom_dep": {
@@ -305,9 +316,7 @@
           "../Drivers/CMSIS/Device/ST/STM32H7xx/Include",
           "../Drivers/CMSIS/Include",
           "../Middlewares/ST/ARM/DSP/Inc",
-          ".cmsis/include",
-          "RTE/_output_spwm",
-          ".eide/deps"
+          "RTE/_output_spwm"
         ],
         "libList": [],
         "sourceDirList": [],

@@ -4,13 +4,6 @@
             "path": "."
         }
     ],
-    "settings": {
-        "files.associations": {
-            "bsp_bemf.h": "c",
-            "protocol_niming_upper.h": "c",
-            "protocol_uart_sei.h": "c",
-            "math.h": "c"
-        }
-    },
+    "settings": {},
     "extensions": {}
 }
