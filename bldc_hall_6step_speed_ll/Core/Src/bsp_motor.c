@@ -198,22 +198,24 @@ void MOTOR_Un_Breaking_LowBridge(TIM_TypeDef *TIMx)
     LL_TIM_GenerateEvent_COM(TIMx);
 }
 
-void MOTOR_Start(TIM_TypeDef *TIMx,TIM_HandleTypeDef *hall_sensor_tim_handle)
+void MOTOR_HallStart(TIM_TypeDef *MOTOR_TIMx,TIM_TypeDef *HALL_TIMx)
 {
     uint8_t hall_current_phase;
     MOTOR_ENABLE();
-    MOTOR_Breaking_LowBridge(TIMx);
+    MOTOR_Breaking_LowBridge(MOTOR_TIMx);
     LL_mDelay(9);
 
-    __HAL_TIM_CLEAR_FLAG(hall_sensor_tim_handle,TIM_FLAG_CC1);
-    HAL_TIMEx_HallSensor_Start_IT(hall_sensor_tim_handle);
+    LL_TIM_ClearFlag_CC1(HALL_TIMx);
+    LL_TIM_EnableIT_CC1(HALL_TIMx);
+    LL_TIM_CC_EnableChannel(HALL_TIMx,LL_TIM_CHANNEL_CH1);
+    LL_TIM_EnableCounter(HALL_TIMx);
 
     hall_current_phase=HALLSENSOR_GetPhase();
 
-    MOTOR_SixStepPhaseChange(TIMx,hall_current_phase);
+    MOTOR_SixStepPhaseChange(MOTOR_TIMx,hall_current_phase);
 
-    LL_TIM_GenerateEvent_COM(TIMx);
-    LL_TIM_ClearFlag_COM(TIMx);
+    LL_TIM_GenerateEvent_COM(MOTOR_TIMx);
+    LL_TIM_ClearFlag_COM(MOTOR_TIMx);
 
     global_motorsta=MOTOR_STA_ENABLE;
 

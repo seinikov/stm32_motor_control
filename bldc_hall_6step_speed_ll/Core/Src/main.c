@@ -121,10 +121,10 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_TIM1_Init();
-  MX_UART4_Init();
   MX_TIM3_Init();
+  MX_UART4_Init();
   /* USER CODE BEGIN 2 */
-  HALLSENSOR_TIMxStart(&htim3);
+  HALLSENSOR_TIMxStart(TIM3);
   global_motorsta=MOTOR_STA_DISABLE;
   FLOAT_FirstOrderLowPassFiltering_DataInit(&global_speed_hz,SPEED_HZ_FILTERING_ALPHA);
   PID_LOC_Init(&motor_speed_pid,round(0./60.*PPR),0.75f,0.45f,0.f);
@@ -135,7 +135,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  MOTOR_Start(TIM1,&htim3);
+  MOTOR_HallStart(TIM1,TIM3);
   while (1)
   {
     Protocol_UARTxRXProcess();

@@ -3,7 +3,7 @@
 
 #include "main.h"
 
-#define NUM_RINGBUF_ELE 20
+#define NUM_RINGBUF_ELE 50
 
 typedef struct {
     uint16_t value1;

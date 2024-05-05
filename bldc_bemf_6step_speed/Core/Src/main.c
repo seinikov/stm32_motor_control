@@ -27,8 +27,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "bsp_motor.h"
-#include "bsp_bemf.h"
 #include "bsp_hall.h"
+#include "observer_bemf.h"
 #include "protocol_niming_upper.h"
 #include "protocol_uart_sei.h"
 #include "algorithm_pid.h"
@@ -59,10 +59,10 @@ MotorSta_Typedef global_motorsta;
 MotorDir_Typedef global_motordir;
 FOLPF_HandleTypeDef global_speed_hz;
 PID_LOC_HandleTypedef motor_speed_pid;
-uint32_t global_pwm_duty=0;
+uint32_t global_pwm_duty=500;
 uint8_t global_state=0x00;
 uint8_t uart_rx_buffer[UART_BUFFER_LEN];
-uint16_t adc_value[3];
+UINT16_SINGLE_DATA_RING_BUFFER global_adc_bemf_u_buffer,global_adc_bemf_v_buffer,global_adc_bemf_w_buffer;
 float32_t motor_control_val=0;
 /* USER CODE END PV */
 
@@ -130,11 +130,17 @@ int main(void)
   MX_ADC3_Init();
   MX_UART4_Init();
   MX_TIM3_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
-  HALLSENSOR_TIMxStart(&htim3);
-  HAL_ADC_Start(&hadc3);
+  
+  // HALLSENSOR_TIMxStart(TIM3);
   global_motorsta=MOTOR_STA_DISABLE;
+  
   FLOAT_FirstOrderLowPassFiltering_DataInit(&global_speed_hz,SPEED_HZ_FILTERING_ALPHA);
+  UINT16_SINGLE_InitRingBuf(&global_adc_bemf_u_buffer);
+  UINT16_SINGLE_InitRingBuf(&global_adc_bemf_v_buffer);
+  UINT16_SINGLE_InitRingBuf(&global_adc_bemf_w_buffer);
+  
   PID_LOC_Init(&motor_speed_pid,round(0./60.*PPR),0.75f,0.45f,0.f);
 
   __HAL_UART_ENABLE_IT(&huart4,UART_IT_IDLE);
@@ -143,7 +149,11 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  MOTOR_Start(TIM1,&htim3);
+  MOTOR_BEMFStart(TIM1);
+  BEMF_ADCxStart(&hadc3);
+  BEMF_TIMxStart(&htim6);
+
+  // MOTOR_HallStart(TIM1,TIM3);
   while (1)
   {
     Protocol_UARTxRXProcess();
@@ -170,7 +180,7 @@ int main(void)
       motor_speed_pid.err_last    = 0;
       motor_speed_pid.integral    = 0;
     }
-    
+#if 0
     if(global_state&0x01){
       global_speed_hz.current_val=HALLSENSOR_SpeedFrequency_Hz();
       FLOAT_FirstOrderLowPassFiltering_Process(&global_speed_hz);
@@ -189,15 +199,13 @@ int main(void)
       MOTOR_SpeedControl(TIM1,round(motor_control_val));
       global_state&=~0x01;
     }
-    
+#endif    
     if(global_state&0x02){
       if(MOTOR_STA_DISABLE==global_motorsta){
         global_speed_hz.current_val=HALLSENSOR_SpeedFrequency_Hz();
         FLOAT_FirstOrderLowPassFiltering_Process(&global_speed_hz);
       }
-      // Protocol_NIMING_Mortor(&huart4,0xF1,global_speed_hz.current_val,global_speed_hz.current_val/PPR,(global_speed_hz.current_val/PPR)*60);
-      ADC_Demo();
-      Protocol_NIMING_Mortor_EMF(&huart4,0xF1,adc_value[0],adc_value[1],adc_value[2]);
+      Protocol_NIMING_Mortor(&huart4,0xF1,global_speed_hz.current_val,global_speed_hz.current_val/PPR,(global_speed_hz.current_val/PPR)*60);
       global_state&=~0x02;
     }
     /* USER CODE END WHILE */

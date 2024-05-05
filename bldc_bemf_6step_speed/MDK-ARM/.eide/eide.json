@@ -47,9 +47,6 @@
                     "path": "../Core/Src/algorithm_pid.c"
                   },
                   {
-                    "path": "../Core/Src/bsp_bemf.c"
-                  },
-                  {
                     "path": "../Core/Src/bsp_hall.c"
                   },
                   {
@@ -66,6 +63,9 @@
                   },
                   {
                     "path": "../Core/Src/main.c"
+                  },
+                  {
+                    "path": "../Core/Src/observer_bemf.c"
                   },
                   {
                     "path": "../Core/Src/protocol_niming_upper.c"

@@ -14,7 +14,9 @@
 #define HALL_PHASE_A2C 3
 #define HALL_PHASE_B2C 1
 
-void HALLSENSOR_TIMxStart(TIM_HandleTypeDef *use_tim_handle);
+void HALLSENSOR_TIMxStart(TIM_TypeDef *HALL_TIMx);
+
+void HALLSENSOR_TIMxIRQCallback(TIM_TypeDef *HALL_TIMx);
 
 uint8_t HALLSENSOR_GetPhase(void);
 

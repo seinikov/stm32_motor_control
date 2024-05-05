@@ -14,37 +14,42 @@ extern MotorDir_Typedef global_motordir;
 uint32_t hall_compare;
 uint32_t hall_count;
 
-void HALLSENSOR_TIMxStart(TIM_HandleTypeDef *use_tim_handle){
-    HAL_TIMEx_HallSensor_Start_IT(use_tim_handle);
+void HALLSENSOR_TIMxStart(TIM_TypeDef *HALL_TIMx)
+{
+    LL_TIM_EnableIT_CC1(HALL_TIMx);
+    LL_TIM_CC_EnableChannel(HALL_TIMx,LL_TIM_CHANNEL_CH1);
+    LL_TIM_EnableCounter(HALL_TIMx);
+
     hall_current_phase=hall_last_pahse;
 }
 
 uint8_t HALLSENSOR_GetPhase(void){
     uint8_t phase=0;
-    phase |= HAL_GPIO_ReadPin(HALL_U_GPIO_Port,HALL_U_Pin);
+    phase |= LL_GPIO_IsInputPinSet(HALL_U_GPIO_Port,HALL_U_Pin);
     phase <<= 1;
-    phase |= HAL_GPIO_ReadPin(HALL_V_GPIO_Port,HALL_V_Pin);
+    phase |= LL_GPIO_IsInputPinSet(HALL_V_GPIO_Port,HALL_V_Pin);
     phase <<= 1;
-    phase |= HAL_GPIO_ReadPin(HALL_W_GPIO_Port,HALL_W_Pin);
+    phase |= LL_GPIO_IsInputPinSet(HALL_W_GPIO_Port,HALL_W_Pin);
     return (phase&0x07);
 }
 
-void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
-    if(htim==&htim3){
-        hall_current_phase=HALLSENSOR_GetPhase();
-        if(global_motorsta==MOTOR_STA_ENABLE){
-            MOTOR_SixStepPhaseChange(TIM1,hall_current_phase);
-        }
-        hall_compare+=__HAL_TIM_GET_COMPARE(htim,TIM_CHANNEL_1);
-        hall_count++;
-        if(hall_dir_ccw[hall_current_phase]==hall_last_pahse){
-            hall_dir=MOTOR_DIR_CCW;
-        }
-        else{
-            hall_dir=MOTOR_DIR_CW;
-        }
-        hall_last_pahse=hall_current_phase;
+void HALLSENSOR_TIMxIRQCallback(TIM_TypeDef *HALL_TIMx)
+{
+    LL_TIM_ClearFlag_CC1(HALL_TIMx);
+
+    hall_current_phase=HALLSENSOR_GetPhase();
+    if(global_motorsta==MOTOR_STA_ENABLE){
+        MOTOR_SixStepPhaseChange(TIM1,hall_current_phase);
     }
+    hall_compare+=LL_TIM_OC_GetCompareCH1(HALL_TIMx);
+    hall_count++;
+    if(hall_dir_ccw[hall_current_phase]==hall_last_pahse){
+        hall_dir=MOTOR_DIR_CCW;
+    }
+    else{
+        hall_dir=MOTOR_DIR_CW;
+    }
+    hall_last_pahse=hall_current_phase;
 }
 
 float HALLSENSOR_SpeedFrequency_Hz(void){

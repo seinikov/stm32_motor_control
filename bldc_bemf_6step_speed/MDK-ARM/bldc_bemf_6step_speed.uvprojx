@@ -405,11 +405,6 @@
               <FilePath>..\Core\Src\algorithm_pid.c</FilePath>
             </File>
             <File>
-              <FileName>bsp_bemf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\Src\bsp_bemf.c</FilePath>
-            </File>
-            <File>
               <FileName>bsp_hall.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Core\Src\bsp_hall.c</FilePath>
@@ -438,6 +433,11 @@
               <FileName>debug.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Core\Inc\debug.h</FilePath>
+            </File>
+            <File>
+              <FileName>observer_bemf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\observer_bemf.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>

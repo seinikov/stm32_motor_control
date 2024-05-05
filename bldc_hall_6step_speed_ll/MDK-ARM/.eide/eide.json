@@ -329,9 +329,7 @@
           "../Drivers/CMSIS/Device/ST/STM32H7xx/Include",
           "../Drivers/CMSIS/Include",
           "../Middlewares/ST/ARM/DSP/Inc",
-          ".cmsis/include",
-          "RTE/_bldc_hall_6step_speed_ll",
-          ".eide/deps"
+          "RTE/_bldc_hall_6step_speed_ll"
         ],
         "libList": [],
         "sourceDirList": [],

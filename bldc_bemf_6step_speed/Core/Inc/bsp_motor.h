@@ -23,12 +23,14 @@ void MOTOR_TIMxDriveOutConfigInit(TIM_TypeDef *TIMx);
 
 void MOTOR_SixStepPhaseChange(TIM_TypeDef *TIMx,uint8_t bemf_phase);
 
-void MOTOR_Start(TIM_TypeDef *TIMx,TIM_HandleTypeDef *hall_sensor_tim_handle);
+void MOTOR_HallStart(TIM_TypeDef *MOTOR_TIMx,TIM_TypeDef *HALL_TIMx);
 
 void MOTOR_Breaking_LowBridge(TIM_TypeDef *TIMx);
 
 void MOTOR_Breaking_Inertia(void);
 
 void MOTOR_SpeedControl(TIM_TypeDef *TIMx,int32_t tim_control_val);
+
+void MOTOR_BEMFStart(TIM_TypeDef *MOTOR_TIMx);
 
 #endif
