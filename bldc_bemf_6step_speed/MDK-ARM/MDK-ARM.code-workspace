@@ -4,15 +4,6 @@
             "path": "."
         }
     ],
-    "settings": {
-        "files.associations": {
-            "observer_bemf.h": "c",
-            "debug.h": "c",
-            "bsp_motor.h": "c",
-            "tim.h": "c",
-            "bsp_hall.h": "c",
-            "data_ring_buffer.h": "c"
-        }
-    },
+    "settings": {},
     "extensions": {}
 }

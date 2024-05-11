@@ -225,7 +225,7 @@ void MOTOR_SpeedControl(TIM_TypeDef *TIMx,int32_t tim_control_val)
 {
     uint32_t hall_current_phase=0;
     
-    if(tim_control_val>TIMx->ARR){
+    if(tim_control_val>(int32_t)TIMx->ARR){
         tim_control_val=TIMx->ARR;
     }else if(tim_control_val<0){
         tim_control_val=0;
