@@ -4,8 +4,6 @@
             "path": "."
         }
     ],
-    "settings": {
-        "cortex-debug.variableUseNaturalFormat": true
-    },
+    "settings": {},
     "extensions": {}
 }
