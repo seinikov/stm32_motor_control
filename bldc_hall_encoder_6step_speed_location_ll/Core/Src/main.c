@@ -25,7 +25,15 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "bsp_motor.h"
+#include "bsp_hall.h"
+#include "bsp_encoder.h"
+#include "protocol_niming_upper.h"
+#include "protocol_uart_sei.h"
+#include "algorithm_pid.h"
+#include "algorithm_filtering.h"
+#include "math.h"
+#include "debug.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -46,7 +54,17 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+MotorSta_Typedef global_motorsta;
+MotorDir_Typedef global_motordir;
+FOLPF_HandleTypeDef global_speed_hz;
+float32_t protocol_speed_hz;
+PID_LOC_HandleTypedef motor_speed_pid;
+int32_t global_encoder_number;
+uint32_t global_pwm_duty=0;
+uint8_t global_state=0x00;
+uint8_t uart_rx_buffer[UART_BUFFER_LEN];
+uint16_t adc_value[3];
+float32_t motor_control_val=0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -96,6 +114,9 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
+  SysTick_Config(SystemCoreClock/1000);
+
+  LL_mDelay(200);
 
   /* USER CODE END SysInit */
 
@@ -104,16 +125,82 @@ int main(void)
   MX_DMA_Init();
   MX_TIM1_Init();
   MX_TIM3_Init();
-  MX_UART4_Init();
   MX_TIM4_Init();
+  MX_UART4_Init();
   /* USER CODE BEGIN 2 */
+  HALLSENSOR_TIMxStart(TIM3);
+  ENCODER_Init(&htim4);
+  FLOAT_FirstOrderLowPassFiltering_DataInit(&global_speed_hz,SPEED_HZ_FILTERING_ALPHA);
+  PID_LOC_Init(&motor_speed_pid,round(0./60.*PPR),0.75f,0.45f,0.f);
 
+  __HAL_UART_ENABLE_IT(&huart4,UART_IT_IDLE);
+  HAL_UART_Receive_DMA(&huart4,(uint8_t *)uart_rx_buffer,UART_BUFFER_LEN);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  MOTOR_Start(TIM1,TIM3);
   while (1)
   {
+    Protocol_UARTxRXProcess();
+
+    if(GPIO_PIN_RESET==LL_GPIO_IsInputPinSet(KEY1_GPIO_Port,KEY1_Pin)){
+      MOTOR_ENABLE();
+      global_motorsta=MOTOR_STA_ENABLE;
+    }
+    
+    if(GPIO_PIN_RESET==LL_GPIO_IsInputPinSet(KEY2_GPIO_Port,KEY2_Pin)){
+
+#if BREAKING_INERTIA
+      MOTOR_Breaking_Inertia();
+#endif
+      /*speed_duty or control_val must be zero when motor enable*/
+      /********if not motor will shake while motor runing********/
+      motor_control_val=0;
+      MOTOR_SpeedControl(TIM1,round(motor_control_val));
+
+      global_speed_hz.current_val = 0;
+      global_speed_hz.last_val    = 0;
+      motor_speed_pid.control_val = 0;
+      motor_speed_pid.err         = 0;
+      motor_speed_pid.err_last    = 0;
+      motor_speed_pid.integral    = 0;
+    }
+    
+    if(global_state&0x01){
+      global_speed_hz.current_val=HALLSENSOR_SpeedFrequency_Hz();
+      FLOAT_FirstOrderLowPassFiltering_Process(&global_speed_hz);
+      if(0==global_speed_hz.current_val){
+        uint8_t hall_phase=0;
+        hall_phase=HALLSENSOR_GetPhase();
+        
+#if BREAKING_INERTIA
+        /*aim to phase when motor enable*/
+        global_pwm_duty=30;
+#endif  
+        MOTOR_SixStepPhaseChange(TIM1,hall_phase);
+        LL_TIM_GenerateEvent_COM(TIM1);
+      }
+      motor_control_val=PID_LOC_Process(&motor_speed_pid,global_speed_hz.current_val);
+      MOTOR_SpeedControl(TIM1,round(motor_control_val));
+      global_state&=~0x01;
+    }
+    
+    if(global_state&0x02){
+      if(MOTOR_STA_DISABLE==global_motorsta){
+        global_speed_hz.current_val=HALLSENSOR_SpeedFrequency_Hz();
+        FLOAT_FirstOrderLowPassFiltering_Process(&global_speed_hz);
+      }
+      global_encoder_number=ENCODER_GetCounting(&htim4);
+      if(MOTOR_DIR_CCW==global_motordir){
+        protocol_speed_hz=-global_speed_hz.current_val;
+      } else {
+        protocol_speed_hz=global_speed_hz.current_val;
+      }
+      // Protocol_NIMING_HallWithMortor(&huart4,0xF1,protocol_speed_hz,protocol_speed_hz/PPR,(protocol_speed_hz/PPR)*60);
+      Protocol_NIMING_HallAndEncoderWihtMortor(&huart4,0xF1,protocol_speed_hz,protocol_speed_hz/PPR,(protocol_speed_hz/PPR)*60,global_encoder_number);
+      global_state&=~0x02;
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

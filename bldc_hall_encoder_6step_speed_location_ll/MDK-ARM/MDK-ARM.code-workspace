@@ -6,7 +6,10 @@
     ],
     "settings": {
         "files.associations": {
-            "bsp_encoder.h": "c"
+            "bsp_hall.h": "c",
+            "bsp_motor.h": "c",
+            "debug.h": "c",
+            "main.h": "c"
         }
     },
     "extensions": {}

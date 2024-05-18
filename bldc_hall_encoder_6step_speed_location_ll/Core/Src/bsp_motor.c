@@ -14,15 +14,9 @@ void MOTOR_TIMxDriveOutConfigInit(TIM_TypeDef *TIMx)
     LL_TIM_CC_SetUpdate(TIMx,LL_TIM_CCUPDATESOURCE_COMG_AND_TRGI);
 }
 
-void MOTOR_Init(MotorDir_Typedef *obj_dir,MotorSta_Typedef *obj_sta,MotorDir_Typedef dir_choice)
-{
-    global_motorsta=MOTOR_STA_DISABLE;
-    global_motordir=dir_choice;
-}
-
 void MOTOR_SixStepPhaseChange(TIM_TypeDef *TIMx,uint8_t hall_phase)
 {
-    if(MOTOR_DIR_CW==global_motordir){
+    if(MOTOR_DIR_CCW==global_motordir){
         hall_phase=0x07^hall_phase;
     }
     switch (hall_phase)
@@ -198,7 +192,7 @@ void MOTOR_Un_Breaking_LowBridge(TIM_TypeDef *TIMx)
     LL_TIM_GenerateEvent_COM(TIMx);
 }
 
-void MOTOR_HallStart(TIM_TypeDef *MOTOR_TIMx,TIM_TypeDef *HALL_TIMx)
+void MOTOR_Start(TIM_TypeDef *MOTOR_TIMx,TIM_TypeDef *HALL_TIMx)
 {
     uint8_t hall_current_phase;
     MOTOR_ENABLE();
@@ -210,6 +204,7 @@ void MOTOR_HallStart(TIM_TypeDef *MOTOR_TIMx,TIM_TypeDef *HALL_TIMx)
     LL_TIM_CC_EnableChannel(HALL_TIMx,LL_TIM_CHANNEL_CH1);
     LL_TIM_EnableCounter(HALL_TIMx);
 
+    
     hall_current_phase=HALLSENSOR_GetPhase();
 
     MOTOR_SixStepPhaseChange(MOTOR_TIMx,hall_current_phase);
@@ -218,7 +213,7 @@ void MOTOR_HallStart(TIM_TypeDef *MOTOR_TIMx,TIM_TypeDef *HALL_TIMx)
     LL_TIM_ClearFlag_COM(MOTOR_TIMx);
 
     global_motorsta=MOTOR_STA_ENABLE;
-
+    global_motordir=MOTOR_DIR_CW;
 }
 
 void MOTOR_SpeedControl(TIM_TypeDef *TIMx,int32_t tim_control_val)
@@ -233,7 +228,7 @@ void MOTOR_SpeedControl(TIM_TypeDef *TIMx,int32_t tim_control_val)
     global_pwm_duty=tim_control_val;
     
     hall_current_phase=HALLSENSOR_GetPhase();
-    if(MOTOR_DIR_CW==global_motordir){
+    if(MOTOR_DIR_CCW==global_motordir){
         hall_current_phase=0x07^hall_current_phase;
     }
     
