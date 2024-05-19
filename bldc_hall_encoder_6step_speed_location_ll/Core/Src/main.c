@@ -58,7 +58,7 @@ MotorSta_Typedef global_motorsta;
 MotorDir_Typedef global_motordir;
 FOLPF_HandleTypeDef global_speed_hz;
 float32_t protocol_speed_hz;
-PID_LOC_HandleTypedef motor_speed_pid;
+PID_LOC_HandleTypedef motor_speed_pid,motor_location_pid;
 int32_t global_encoder_number;
 uint32_t global_pwm_duty=0;
 uint8_t global_state=0x00;
@@ -130,8 +130,11 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HALLSENSOR_TIMxStart(TIM3);
   ENCODER_Init(&htim4);
+  
   FLOAT_FirstOrderLowPassFiltering_DataInit(&global_speed_hz,SPEED_HZ_FILTERING_ALPHA);
+  
   PID_LOC_Init(&motor_speed_pid,round(0./60.*PPR),0.75f,0.45f,0.f);
+  PID_LOC_Init(&motor_location_pid,0.f,0.75f,0.45f,0.f);
 
   __HAL_UART_ENABLE_IT(&huart4,UART_IT_IDLE);
   HAL_UART_Receive_DMA(&huart4,(uint8_t *)uart_rx_buffer,UART_BUFFER_LEN);

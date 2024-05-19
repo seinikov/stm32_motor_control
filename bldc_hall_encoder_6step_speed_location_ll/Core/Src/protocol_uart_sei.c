@@ -1,4 +1,5 @@
 #include "main.h"
+#include "math.h"
 #include "tim.h"
 #include "usart.h"
 #include "bsp_hall.h"
@@ -9,7 +10,7 @@
 
 extern uint8_t idleflag;
 extern uint8_t global_motordir;
-extern PID_LOC_HandleTypedef motor_speed_pid;
+extern PID_LOC_HandleTypedef motor_speed_pid,motor_location_pid;
 extern DMA_HandleTypeDef hdma_uart4_rx;
 extern uint8_t uart_rx_buffer[UART_BUFFER_LEN];
 
@@ -33,31 +34,49 @@ void Protocol_UARTxRXProcess(void){
           uint32_t temp_para=uart_rx_buffer[2]<<24|uart_rx_buffer[3]<<16|uart_rx_buffer[4]<<8|uart_rx_buffer[5];
           switch (uart_rx_buffer[1])
           {
-          case CMD_SET_PARA_TARGET:
+          case CMD_SET_SPEED_PARA_TARGET:
           {
-            float temp_tar=roundf(*((float*)&temp_para)/60.f*PPR);
-            if(0>temp_tar){
-              motor_speed_pid.target_val=-temp_tar;
+            if(0>roundf(*((float*)&temp_para)/60.f*PPR)){
               global_motordir=MOTOR_DIR_CCW;
             } else {
-              motor_speed_pid.target_val=temp_tar;
               global_motordir=MOTOR_DIR_CW;
             }
+            motor_speed_pid.target_val=fabs(roundf(*((float*)&temp_para)/60.f*PPR));
             break;
           }
-          case CMD_SET_PARA_P:
+          case CMD_SET_SPEED_PARA_P:
           {
             motor_speed_pid.Kp=*((float*)&temp_para);
             break;
           }
-          case CMD_SET_PARA_I:
+          case CMD_SET_SPEED_PARA_I:
           {
             motor_speed_pid.Ki=*((float*)&temp_para);
             break;
           }
-          case CMD_SET_PARA_D:
+          case CMD_SET_SPEED_PARA_D:
           {
             motor_speed_pid.Kd=*((float*)&temp_para);
+            break;
+          }
+          case CMD_SET_LOCATION_PARA_TARGET:
+          {
+            motor_location_pid.target_val=*((float*)&temp_para);
+            break;
+          }
+          case CMD_SET_LOCATION_PARA_P:
+          {
+            motor_location_pid.Kp=*((float*)&temp_para);
+            break;
+          }
+          case CMD_SET_LOCATION_PARA_I:
+          {
+            motor_location_pid.Ki=*((float*)&temp_para);
+            break;
+          }
+          case CMD_SET_LOCATION_PARA_D:
+          {
+            motor_location_pid.Kd=*((float*)&temp_para);
             break;
           }
           default:

@@ -6,10 +6,9 @@
     ],
     "settings": {
         "files.associations": {
-            "bsp_hall.h": "c",
-            "bsp_motor.h": "c",
-            "debug.h": "c",
-            "main.h": "c"
+            "main.h": "c",
+            "algorithm_pid.h": "c",
+            "arm_math.h": "c"
         }
     },
     "extensions": {}
