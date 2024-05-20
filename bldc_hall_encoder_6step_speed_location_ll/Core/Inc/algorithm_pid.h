@@ -29,7 +29,7 @@ void PID_LOC_Init(PID_LOC_HandleTypedef *pid_obj,float32_t init_target,float32_t
 
 float PID_LOC_Process(PID_LOC_HandleTypedef *pid_obj,float current_val);
 
-float PID_LOC_Cascaded_TwoLoops(PID_LOC_HandleTypedef *outer_loop_pid_obj,
+float PID_LOC_Process_Cascaded_TwoLoops(PID_LOC_HandleTypedef *outer_loop_pid_obj,
                                 PID_LOC_HandleTypedef *inner_loop_pid_obj,
                                 float outer_back_val,float inner_back_val);
 

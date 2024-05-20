@@ -23,6 +23,8 @@ float PID_LOC_Process(PID_LOC_HandleTypedef *pid_obj,float current_val)
     /*需要仿真验证理论*/
     if(pid_obj->integral>PID_INTEGRAL_MAX){
         pid_obj->integral=PID_INTEGRAL_MAX;
+    } else if(pid_obj->integral<-PID_INTEGRAL_MAX){
+        pid_obj->integral=-PID_INTEGRAL_MAX;
     }
     
     pid_obj->control_val = pid_obj->Kp*pid_obj->err
@@ -34,9 +36,9 @@ float PID_LOC_Process(PID_LOC_HandleTypedef *pid_obj,float current_val)
     return pid_obj->control_val;
 }
 
-float PID_LOC_Cascaded_TwoLoops(PID_LOC_HandleTypedef *outer_loop_pid_obj,
-                                PID_LOC_HandleTypedef *inner_loop_pid_obj,
-                                float outer_back_val,float inner_back_val)
+float PID_LOC_Process_Cascaded_TwoLoops(PID_LOC_HandleTypedef *outer_loop_pid_obj,
+                                        PID_LOC_HandleTypedef *inner_loop_pid_obj,
+                                        float outer_back_val,float inner_back_val)
 {
     float output_outer_loop=PID_LOC_Process(outer_loop_pid_obj,outer_back_val);
     

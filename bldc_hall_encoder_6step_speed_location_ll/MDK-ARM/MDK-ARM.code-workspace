@@ -6,10 +6,9 @@
     ],
     "settings": {
         "files.associations": {
-            "main.h": "c",
-            "algorithm_pid.h": "c",
             "arm_math.h": "c"
-        }
+        },
+        "cortex-debug.variableUseNaturalFormat": true
     },
     "extensions": {}
 }

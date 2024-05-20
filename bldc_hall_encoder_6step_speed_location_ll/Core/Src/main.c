@@ -133,8 +133,8 @@ int main(void)
   
   FLOAT_FirstOrderLowPassFiltering_DataInit(&global_speed_hz,SPEED_HZ_FILTERING_ALPHA);
   
-  PID_LOC_Init(&motor_speed_pid,round(0./60.*PPR),0.75f,0.45f,0.f);
-  PID_LOC_Init(&motor_location_pid,0.f,0.75f,0.45f,0.f);
+  PID_LOC_Init(&motor_speed_pid,round(0./60.*PPR),0.75f,0.f,0.f);
+  PID_LOC_Init(&motor_location_pid,0.f,0.75f,0.0f,0.f);
 
   __HAL_UART_ENABLE_IT(&huart4,UART_IT_IDLE);
   HAL_UART_Receive_DMA(&huart4,(uint8_t *)uart_rx_buffer,UART_BUFFER_LEN);
@@ -162,17 +162,22 @@ int main(void)
       motor_control_val=0;
       MOTOR_SpeedControl(TIM1,round(motor_control_val));
 
-      global_speed_hz.current_val = 0;
-      global_speed_hz.last_val    = 0;
-      motor_speed_pid.control_val = 0;
-      motor_speed_pid.err         = 0;
-      motor_speed_pid.err_last    = 0;
-      motor_speed_pid.integral    = 0;
+      global_speed_hz.current_val     = 0;
+      global_speed_hz.last_val        = 0;
+      motor_speed_pid.control_val     = 0;
+      motor_speed_pid.err             = 0;
+      motor_speed_pid.err_last        = 0;
+      motor_speed_pid.integral        = 0;
+      motor_location_pid.control_val  = 0;
+      motor_location_pid.err          = 0;
+      motor_location_pid.err_last     = 0;
+      motor_location_pid.integral     = 0;
     }
     
     if(global_state&0x01){
       global_speed_hz.current_val=HALLSENSOR_SpeedFrequency_Hz();
       FLOAT_FirstOrderLowPassFiltering_Process(&global_speed_hz);
+      global_encoder_number=ENCODER_GetCounting(&htim4);
       if(0==global_speed_hz.current_val){
         uint8_t hall_phase=0;
         hall_phase=HALLSENSOR_GetPhase();
@@ -184,17 +189,22 @@ int main(void)
         MOTOR_SixStepPhaseChange(TIM1,hall_phase);
         LL_TIM_GenerateEvent_COM(TIM1);
       }
-      motor_control_val=PID_LOC_Process(&motor_speed_pid,global_speed_hz.current_val);
-      MOTOR_SpeedControl(TIM1,round(motor_control_val));
+      motor_control_val = PID_LOC_Process_Cascaded_TwoLoops(&motor_location_pid,&motor_speed_pid,global_encoder_number,global_speed_hz.current_val);
+      // motor_control_val=PID_LOC_Process(&motor_speed_pid,global_speed_hz.current_val);
+      if(motor_control_val<0){
+        global_motordir=MOTOR_DIR_CCW;
+      } else{
+        global_motordir=MOTOR_DIR_CW;
+      }
+      MOTOR_SpeedControl(TIM1,fabs(round(motor_control_val)));
       global_state&=~0x01;
     }
-    
     if(global_state&0x02){
       if(MOTOR_STA_DISABLE==global_motorsta){
         global_speed_hz.current_val=HALLSENSOR_SpeedFrequency_Hz();
         FLOAT_FirstOrderLowPassFiltering_Process(&global_speed_hz);
+        global_encoder_number=ENCODER_GetCounting(&htim4);
       }
-      global_encoder_number=ENCODER_GetCounting(&htim4);
       if(MOTOR_DIR_CCW==global_motordir){
         protocol_speed_hz=-global_speed_hz.current_val;
       } else {
