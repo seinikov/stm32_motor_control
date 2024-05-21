@@ -4,13 +4,6 @@
             "path": "."
         }
     ],
-    "settings": {
-        "files.associations": {
-            "debug.h": "c",
-            "bsp_hall.h": "c",
-            "bsp_motor.h": "c",
-            "main.h": "c"
-        }
-    },
+    "settings": {},
     "extensions": {}
 }
