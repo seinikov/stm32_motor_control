@@ -3,6 +3,8 @@
 
 #include "arm_math.h"
 
+#define PID_INTEGRAL_MAX        12000
+
 typedef struct {
     float target_val;     //目标值
     float err;            //定义当前偏差值

@@ -57,6 +57,7 @@ MotorSta_Typedef global_motorsta;
 MotorDir_Typedef global_motordir;
 FOLPF_HandleTypeDef global_speed_hz;
 PID_LOC_HandleTypedef motor_speed_pid;
+float32_t protocol_speed_hz;
 uint32_t global_pwm_duty=0;
 uint8_t global_state=0x00;
 uint8_t uart_rx_buffer[UART_BUFFER_LEN];
@@ -135,7 +136,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  MOTOR_HallStart(TIM1,TIM3);
+  MOTOR_Start(TIM1,TIM3);
   while (1)
   {
     Protocol_UARTxRXProcess();
@@ -178,7 +179,7 @@ int main(void)
         LL_TIM_GenerateEvent_COM(TIM1);
       }
       motor_control_val=PID_LOC_Process(&motor_speed_pid,global_speed_hz.current_val);
-      MOTOR_SpeedControl(TIM1,round(motor_control_val));
+      MOTOR_SpeedControl(TIM1,fabs(round(motor_control_val)));
       global_state&=~0x01;
     }
     
@@ -187,7 +188,12 @@ int main(void)
         global_speed_hz.current_val=HALLSENSOR_SpeedFrequency_Hz();
         FLOAT_FirstOrderLowPassFiltering_Process(&global_speed_hz);
       }
-      Protocol_NIMING_Mortor(&huart4,0xF1,global_speed_hz.current_val,global_speed_hz.current_val/PPR,(global_speed_hz.current_val/PPR)*60);
+      if(MOTOR_DIR_CCW==global_motordir){
+        protocol_speed_hz=-global_speed_hz.current_val;
+      } else {
+        protocol_speed_hz=global_speed_hz.current_val;
+      }
+      Protocol_NIMING_Mortor(&huart4,0xF1,protocol_speed_hz,protocol_speed_hz/PPR,(protocol_speed_hz/PPR)*60);
       global_state&=~0x02;
     }
     /* USER CODE END WHILE */

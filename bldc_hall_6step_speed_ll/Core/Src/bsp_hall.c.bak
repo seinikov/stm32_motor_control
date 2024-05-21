@@ -7,7 +7,7 @@
 
 uint8_t hall_current_phase=0,hall_last_pahse=0;
 uint8_t hall_dir=MOTOR_DIR_CW;
-uint8_t hall_dir_ccw [7] = {0, 5, 3, 1, 6, 4, 2};
+uint8_t hall_dir_ccw [7] = {0, 3, 6, 2, 5, 1, 4};
 extern MotorSta_Typedef global_motorsta;
 extern MotorDir_Typedef global_motordir;
 

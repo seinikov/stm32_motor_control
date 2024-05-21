@@ -10,6 +10,11 @@
     "files": [],
     "folders": [
       {
+        "name": "::CMSIS",
+        "files": [],
+        "folders": []
+      },
+      {
         "name": "Application",
         "files": [],
         "folders": [
@@ -45,31 +50,31 @@
                     "path": "../Core/Src/data_ring_buffer.c"
                   },
                   {
+                    "path": "../Core/Src/dma.c"
+                  },
+                  {
+                    "path": "../Core/Src/gpio.c"
+                  },
+                  {
+                    "path": "../Core/Src/main.c"
+                  },
+                  {
                     "path": "../Core/Src/protocol_niming_upper.c"
                   },
                   {
                     "path": "../Core/Src/protocol_uart_sei.c"
                   },
                   {
-                    "path": "../Core/Src/main.c"
+                    "path": "../Core/Src/stm32h7xx_hal_msp.c"
                   },
                   {
-                    "path": "../Core/Src/gpio.c"
-                  },
-                  {
-                    "path": "../Core/Src/dma.c"
+                    "path": "../Core/Src/stm32h7xx_it.c"
                   },
                   {
                     "path": "../Core/Src/tim.c"
                   },
                   {
                     "path": "../Core/Src/usart.c"
-                  },
-                  {
-                    "path": "../Core/Src/stm32h7xx_it.c"
-                  },
-                  {
-                    "path": "../Core/Src/stm32h7xx_hal_msp.c"
                   }
                 ],
                 "folders": []
@@ -176,11 +181,6 @@
             "folders": []
           }
         ]
-      },
-      {
-        "name": "::CMSIS",
-        "files": [],
-        "folders": []
       }
     ]
   },

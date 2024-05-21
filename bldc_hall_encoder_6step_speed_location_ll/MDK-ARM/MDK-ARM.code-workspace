@@ -4,11 +4,6 @@
             "path": "."
         }
     ],
-    "settings": {
-        "files.associations": {
-            "arm_math.h": "c"
-        },
-        "cortex-debug.variableUseNaturalFormat": true
-    },
+    "settings": {},
     "extensions": {}
 }

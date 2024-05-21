@@ -34,8 +34,7 @@ float PID_LOC_Process(PID_LOC_HandleTypedef *pid_obj,float current_val)
     return pid_obj->control_val;
 }
 
-void PID_INC_Init(PID_INC_HandleTypedef *pid_obj,float32_t init_target,float32_t init_kp,float32_t init_ki,float32_t init_kd)
-{
+void PID_INC_Init(PID_INC_HandleTypedef *pid_obj,float32_t init_target,float32_t init_kp,float32_t init_ki,float32_t init_kd){
     pid_obj->err=0.f;
     pid_obj->err_last=0.f;
     pid_obj->err_before_last=0.f;

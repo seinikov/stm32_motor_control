@@ -1,5 +1,4 @@
 #include "main.h"
-#include "bsp_hall.h"
 #include "algorithm_pid.h"
 
 void PID_LOC_Init(PID_LOC_HandleTypedef *pid_obj,float32_t init_target,

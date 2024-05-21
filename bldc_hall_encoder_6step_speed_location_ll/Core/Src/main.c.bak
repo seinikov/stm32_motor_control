@@ -209,6 +209,7 @@ int main(void)
       } else {
         protocol_speed_hz=global_speed_hz.current_val;
       }
+      // Protocol_NIMING_HallWithMortor(&huart4,0xF1,protocol_speed_hz,protocol_speed_hz/PPR,(protocol_speed_hz/PPR)*60);
       Protocol_NIMING_HallAndEncoderWihtMortor(&huart4,0xF1,protocol_speed_hz,protocol_speed_hz/PPR,(protocol_speed_hz/PPR)*60,global_encoder_number);
       global_state&=~0x02;
     }
