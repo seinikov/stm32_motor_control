@@ -10,6 +10,7 @@
 
 extern uint8_t idleflag;
 extern uint8_t global_motordir;
+extern float32_t global_speed_set;
 extern PID_LOC_HandleTypedef motor_speed_pid,motor_location_pid;
 extern DMA_HandleTypeDef hdma_uart4_rx;
 extern uint8_t uart_rx_buffer[UART_BUFFER_LEN];
@@ -79,6 +80,13 @@ void Protocol_UARTxRXProcess(void){
             motor_location_pid.Kd=*((float*)&temp_para);
             break;
           }
+#if CONTROL_CONSTANT_SPEED
+          case CMD_SET_MOTION_SPEED:
+          {
+            global_speed_set=*((float*)&temp_para);
+            break;
+          }
+#endif
           default:
             break;
           }

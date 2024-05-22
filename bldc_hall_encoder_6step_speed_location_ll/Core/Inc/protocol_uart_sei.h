@@ -11,6 +11,8 @@
 #define CMD_SET_LOCATION_PARA_I         0x56
 #define CMD_SET_LOCATION_PARA_D         0xAB
 
+#define CMD_SET_MOTION_SPEED            0x35
+
 #define CMD_FLASH_SAVE        0xEE
 
 #define UART_BUFFER_LEN       64
