@@ -4,6 +4,10 @@
             "path": "."
         }
     ],
-    "settings": {},
+    "settings": {
+        "files.associations": {
+            "bsp_encoder.h": "c"
+        }
+    },
     "extensions": {}
 }

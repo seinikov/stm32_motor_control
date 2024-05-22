@@ -4,30 +4,32 @@
 
 __IO int32_t overflow_count=0;
 
-void ENCODER_Init(TIM_HandleTypeDef *encoder_htim)
+void ENCODER_TIMxStart(TIM_TypeDef *ENCODER_TIMx)
 {
-    __HAL_TIM_CLEAR_IT(encoder_htim,TIM_IT_UPDATE);
-    __HAL_TIM_URS_ENABLE(encoder_htim);
-    __HAL_TIM_ENABLE_IT(encoder_htim,TIM_IT_UPDATE);
+    LL_TIM_ClearFlag_UPDATE(ENCODER_TIMx);
 
-    HAL_TIM_Encoder_Start(encoder_htim,TIM_CHANNEL_ALL);
+    LL_TIM_EnableIT_UPDATE(ENCODER_TIMx);
+    LL_TIM_SetUpdateSource(ENCODER_TIMx,LL_TIM_UPDATESOURCE_COUNTER);
+    LL_TIM_CC_EnableChannel(ENCODER_TIMx,LL_TIM_CHANNEL_CH1);
+    LL_TIM_CC_EnableChannel(ENCODER_TIMx,LL_TIM_CHANNEL_CH2);
+
+    LL_TIM_EnableCounter(ENCODER_TIMx);
 }
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+void ENCODER_TIMxIRQCallback(TIM_TypeDef *ENCODER_TIMx)
 {
-    if(htim==&htim4)
-    {
-        if(__HAL_TIM_IS_TIM_COUNTING_DOWN(&htim4)){
-            overflow_count--;
-        } else {
-            overflow_count++;
-        }
+    LL_TIM_ClearFlag_UPDATE(ENCODER_TIMx);
+    if(LL_TIM_COUNTERMODE_DOWN==LL_TIM_GetCounterMode(ENCODER_TIMx)){
+        overflow_count--;
+    }else{
+        overflow_count++;
     }
 }
 
-int32_t ENCODER_GetCounting(TIM_HandleTypeDef *encoder_htim)
+int32_t ENCODER_GetCounting(TIM_TypeDef *ENCODER_TIMx)
 {
-        int32_t val=__HAL_TIM_GET_COUNTER(encoder_htim);
-        int32_t period=encoder_htim->Instance->ARR;
-        return val+overflow_count*period;
+    int32_t val=LL_TIM_GetCounter(ENCODER_TIMx);
+    int32_t period=ENCODER_TIMx->ARR;
+    
+    return val+overflow_count*period;
 }

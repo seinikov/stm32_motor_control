@@ -129,7 +129,7 @@ int main(void)
   MX_UART4_Init();
   /* USER CODE BEGIN 2 */
   HALLSENSOR_TIMxStart(TIM3);
-  ENCODER_Init(&htim4);
+  ENCODER_TIMxStart(TIM4);
   
   FLOAT_FirstOrderLowPassFiltering_DataInit(&global_speed_hz,SPEED_HZ_FILTERING_ALPHA);
   
@@ -177,7 +177,7 @@ int main(void)
     if(global_state&0x01){
       global_speed_hz.current_val=HALLSENSOR_SpeedFrequency_Hz();
       FLOAT_FirstOrderLowPassFiltering_Process(&global_speed_hz);
-      global_encoder_number=ENCODER_GetCounting(&htim4);
+      global_encoder_number=ENCODER_GetCounting(TIM4);
       if(0==global_speed_hz.current_val){
         uint8_t hall_phase=0;
         hall_phase=HALLSENSOR_GetPhase();
@@ -202,7 +202,7 @@ int main(void)
       if(MOTOR_STA_DISABLE==global_motorsta){
         global_speed_hz.current_val=HALLSENSOR_SpeedFrequency_Hz();
         FLOAT_FirstOrderLowPassFiltering_Process(&global_speed_hz);
-        global_encoder_number=ENCODER_GetCounting(&htim4);
+        global_encoder_number=ENCODER_GetCounting(TIM4);
       }
       if(MOTOR_DIR_CCW==global_motordir){
         protocol_speed_hz=-global_speed_hz.current_val;

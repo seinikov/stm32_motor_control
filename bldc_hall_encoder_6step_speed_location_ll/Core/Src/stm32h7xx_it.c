@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 #include "bsp_motor.h"
 #include "bsp_hall.h"
+#include "bsp_encoder.h"
 #include "debug.h"
 /* USER CODE END Includes */
 
@@ -58,7 +59,6 @@ uint8_t idleflag;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern TIM_HandleTypeDef htim4;
 extern DMA_HandleTypeDef hdma_uart4_rx;
 extern UART_HandleTypeDef huart4;
 /* USER CODE BEGIN EV */
@@ -248,8 +248,8 @@ void TIM4_IRQHandler(void)
   /* USER CODE BEGIN TIM4_IRQn 0 */
 
   /* USER CODE END TIM4_IRQn 0 */
-  HAL_TIM_IRQHandler(&htim4);
   /* USER CODE BEGIN TIM4_IRQn 1 */
+  ENCODER_TIMxIRQCallback(TIM4);
 
   /* USER CODE END TIM4_IRQn 1 */
 }

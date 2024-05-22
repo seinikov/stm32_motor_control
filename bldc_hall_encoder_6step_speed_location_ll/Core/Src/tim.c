@@ -24,8 +24,6 @@
 #include "bsp_motor.h"
 /* USER CODE END 0 */
 
-TIM_HandleTypeDef htim4;
-
 /* TIM1 init function */
 void MX_TIM1_Init(void)
 {
@@ -192,99 +190,54 @@ void MX_TIM4_Init(void)
 
   /* USER CODE END TIM4_Init 0 */
 
-  TIM_Encoder_InitTypeDef sConfig = {0};
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  LL_TIM_InitTypeDef TIM_InitStruct = {0};
+
+  LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+  /* Peripheral clock enable */
+  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM4);
+
+  LL_AHB4_GRP1_EnableClock(LL_AHB4_GRP1_PERIPH_GPIOD);
+  /**TIM4 GPIO Configuration
+  PD12   ------> TIM4_CH1
+  PD13   ------> TIM4_CH2
+  */
+  GPIO_InitStruct.Pin = LL_GPIO_PIN_12|LL_GPIO_PIN_13;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  GPIO_InitStruct.Alternate = LL_GPIO_AF_2;
+  LL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  /* TIM4 interrupt Init */
+  NVIC_SetPriority(TIM4_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+  NVIC_EnableIRQ(TIM4_IRQn);
 
   /* USER CODE BEGIN TIM4_Init 1 */
 
   /* USER CODE END TIM4_Init 1 */
-  htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 0;
-  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 65535;
-  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
-  sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
-  sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
-  sConfig.IC1Prescaler = TIM_ICPSC_DIV1;
-  sConfig.IC1Filter = 0;
-  sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
-  sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
-  sConfig.IC2Prescaler = TIM_ICPSC_DIV1;
-  sConfig.IC2Filter = 0;
-  if (HAL_TIM_Encoder_Init(&htim4, &sConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
+  TIM_InitStruct.Prescaler = 0;
+  TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
+  TIM_InitStruct.Autoreload = 65535;
+  TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
+  LL_TIM_Init(TIM4, &TIM_InitStruct);
+  LL_TIM_DisableARRPreload(TIM4);
+  LL_TIM_SetEncoderMode(TIM4, LL_TIM_ENCODERMODE_X4_TI12);
+  LL_TIM_IC_SetActiveInput(TIM4, LL_TIM_CHANNEL_CH1, LL_TIM_ACTIVEINPUT_DIRECTTI);
+  LL_TIM_IC_SetPrescaler(TIM4, LL_TIM_CHANNEL_CH1, LL_TIM_ICPSC_DIV1);
+  LL_TIM_IC_SetFilter(TIM4, LL_TIM_CHANNEL_CH1, LL_TIM_IC_FILTER_FDIV1);
+  LL_TIM_IC_SetPolarity(TIM4, LL_TIM_CHANNEL_CH1, LL_TIM_IC_POLARITY_RISING);
+  LL_TIM_IC_SetActiveInput(TIM4, LL_TIM_CHANNEL_CH2, LL_TIM_ACTIVEINPUT_DIRECTTI);
+  LL_TIM_IC_SetPrescaler(TIM4, LL_TIM_CHANNEL_CH2, LL_TIM_ICPSC_DIV1);
+  LL_TIM_IC_SetFilter(TIM4, LL_TIM_CHANNEL_CH2, LL_TIM_IC_FILTER_FDIV1);
+  LL_TIM_IC_SetPolarity(TIM4, LL_TIM_CHANNEL_CH2, LL_TIM_IC_POLARITY_RISING);
+  LL_TIM_SetTriggerOutput(TIM4, LL_TIM_TRGO_RESET);
+  LL_TIM_DisableMasterSlaveMode(TIM4);
   /* USER CODE BEGIN TIM4_Init 2 */
 
   /* USER CODE END TIM4_Init 2 */
 
-}
-
-void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef* tim_encoderHandle)
-{
-
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-  if(tim_encoderHandle->Instance==TIM4)
-  {
-  /* USER CODE BEGIN TIM4_MspInit 0 */
-
-  /* USER CODE END TIM4_MspInit 0 */
-    /* TIM4 clock enable */
-    __HAL_RCC_TIM4_CLK_ENABLE();
-
-    __HAL_RCC_GPIOD_CLK_ENABLE();
-    /**TIM4 GPIO Configuration
-    PD12     ------> TIM4_CH1
-    PD13     ------> TIM4_CH2
-    */
-    GPIO_InitStruct.Pin = GPIO_PIN_12|GPIO_PIN_13;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    GPIO_InitStruct.Alternate = GPIO_AF2_TIM4;
-    HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
-    /* TIM4 interrupt Init */
-    HAL_NVIC_SetPriority(TIM4_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(TIM4_IRQn);
-  /* USER CODE BEGIN TIM4_MspInit 1 */
-
-  /* USER CODE END TIM4_MspInit 1 */
-  }
-}
-
-void HAL_TIM_Encoder_MspDeInit(TIM_HandleTypeDef* tim_encoderHandle)
-{
-
-  if(tim_encoderHandle->Instance==TIM4)
-  {
-  /* USER CODE BEGIN TIM4_MspDeInit 0 */
-
-  /* USER CODE END TIM4_MspDeInit 0 */
-    /* Peripheral clock disable */
-    __HAL_RCC_TIM4_CLK_DISABLE();
-
-    /**TIM4 GPIO Configuration
-    PD12     ------> TIM4_CH1
-    PD13     ------> TIM4_CH2
-    */
-    HAL_GPIO_DeInit(GPIOD, GPIO_PIN_12|GPIO_PIN_13);
-
-    /* TIM4 interrupt Deinit */
-    HAL_NVIC_DisableIRQ(TIM4_IRQn);
-  /* USER CODE BEGIN TIM4_MspDeInit 1 */
-
-  /* USER CODE END TIM4_MspDeInit 1 */
-  }
 }
 
 /* USER CODE BEGIN 1 */
