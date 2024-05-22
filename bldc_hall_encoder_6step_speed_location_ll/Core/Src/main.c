@@ -58,6 +58,9 @@ MotorSta_Typedef global_motorsta;
 MotorDir_Typedef global_motordir;
 FOLPF_HandleTypeDef global_speed_hz;
 float32_t protocol_speed_hz;
+#if CONTROL_CONSTANT_SPEED
+float32_t global_speed_set=1000.f;
+#endif
 PID_LOC_HandleTypedef motor_speed_pid,motor_location_pid;
 int32_t global_encoder_number;
 uint32_t global_pwm_duty=0;

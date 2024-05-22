@@ -1,5 +1,9 @@
 #include "main.h"
+#include "debug.h"
+#include "math.h"
 #include "algorithm_pid.h"
+
+extern float32_t global_speed_set;
 
 void PID_LOC_Init(PID_LOC_HandleTypedef *pid_obj,float32_t init_target,
                 float32_t init_kp,float32_t init_ki,float32_t init_kd)
@@ -40,13 +44,20 @@ float PID_LOC_Process_Cascaded_TwoLoops(PID_LOC_HandleTypedef *outer_loop_pid_ob
                                         float outer_back_val,float inner_back_val)
 {
     float output_outer_loop=PID_LOC_Process(outer_loop_pid_obj,outer_back_val);
-    
+#if CONTROL_CONSTANT_SPEED
+    if(outer_loop_pid_obj->err>(global_speed_set/(outer_loop_pid_obj->Kp+outer_loop_pid_obj->Ki))){
+        output_outer_loop=global_speed_set;
+    } else if (outer_loop_pid_obj->err<-(global_speed_set/(outer_loop_pid_obj->Kp+outer_loop_pid_obj->Ki))){
+        output_outer_loop=-global_speed_set;
+    }
+#endif
+#if CONTROL_CONSTANT_SPEED_DISABLE
     if(output_outer_loop>INNER_LOOP_INPUT_MAX){
         output_outer_loop=INNER_LOOP_INPUT_MAX;
     } else if(output_outer_loop<-INNER_LOOP_INPUT_MAX){
         output_outer_loop=-INNER_LOOP_INPUT_MAX;
     }
-
+#endif
     inner_loop_pid_obj->target_val=output_outer_loop;
 
     return PID_LOC_Process(inner_loop_pid_obj,inner_back_val);

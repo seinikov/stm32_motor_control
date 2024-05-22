@@ -13,6 +13,9 @@
 #define MPU_ENABLE               1
 #define MPU_DISABLE              !MPU_ENABLE
 
+#define CONTROL_CONSTANT_SPEED          1
+#define CONTROL_CONSTANT_SPEED_DISABLE  !CONTROL_CONSTANT_SPEED
+
 #define PID_INTERVAL  30//ms
 #define UI_INTERVAL   50//ms
 
