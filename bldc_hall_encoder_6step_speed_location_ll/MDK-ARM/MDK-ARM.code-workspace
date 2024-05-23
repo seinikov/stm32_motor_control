@@ -4,12 +4,6 @@
             "path": "."
         }
     ],
-    "settings": {
-        "files.associations": {
-            "protocol_uart_sei.h": "c",
-            "algorithm_pid.h": "c",
-            "bsp_hall.h": "c"
-        }
-    },
+    "settings": {},
     "extensions": {}
 }
